@@ -1,9 +1,9 @@
-# manifestgen
+# Manifestgen
 
-* generate yaml and json manifests trough go templating 
-* variable json and yaml input to default templated output
+* Generate yaml and json manifests trough Go templating 
+* Variable json and yaml input to default templated output
 
-#### examples 
+#### Examples 
 
 * Linux bash
 ```bash
@@ -16,7 +16,7 @@ team="team-b"
 
 ```
 
-* Windows PS
+* Windows PowerShell
 ```powershell
 $team="team-a"
 .\build\manifestgen.exe --value="build\testing\values\$team.yaml" --template="build\testing\templates\team.yaml" --output="build\testing\output\$team.yaml" --filetype="yaml"
