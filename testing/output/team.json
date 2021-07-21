@@ -1,0 +1,154 @@
+{
+    "apiVersion": "rbac.authorization.k8s.io/v1",
+    "kind": "RoleBinding",
+    "metadata": {
+      "name": "psp-restricted-binding",
+      "namespace": "team-alpha-dev"
+    },
+    "roleRef": {
+      "kind": "ClusterRole",
+      "name": "psp-restricted",
+      "apiGroup": "rbac.authorization.k8s.io"
+    },
+    "subjects": [
+      {
+        "kind": "Group",
+        "apiGroup": "rbac.authorization.k8s.io",
+        "name": "system:serviceaccounts"
+      },
+      {
+        "kind": "Group",
+        "apiGroup": "rbac.authorization.k8s.io",
+        "name": "system:authenticated"
+      },
+      {
+        "kind": "ServiceAccount",
+        "name": "psp-restricted",
+        "namespace": "team-alpha-dev"
+      }
+    ],
+    "items": [
+      {
+        "apiVersion": "v1",
+        "kind": "ResourceQuota",
+        "metadata": {
+          "name": "pods-high",
+          "namespace": "team-alpha-dev"
+        },
+        "spec": {
+          "hard": {
+            "cpu": "10",
+            "memory": "200Gi",
+            "pods": "10"
+          },
+          "scopeSelector": {
+            "matchExpressions": [
+              {
+                "operator": "In",
+                "scopeName": "PriorityClass",
+                "values": [
+                  "high"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "ResourceQuota",
+        "metadata": {
+          "name": "pods-medium",
+          "namespace": "team-alpha-dev"
+        },
+        "spec": {
+          "hard": {
+            "cpu": "5",
+            "memory": "20Gi",
+            "pods": "10"
+          },
+          "scopeSelector": {
+            "matchExpressions": [
+              {
+                "operator": "In",
+                "scopeName": "PriorityClass",
+                "values": [
+                  "medium"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "ResourceQuota",
+        "metadata": {
+          "name": "pods-low",
+          "namespace": "team-alpha-dev"
+        },
+        "spec": {
+          "hard": {
+            "cpu": "1",
+            "memory": "10Gi",
+            "pods": "10"
+          },
+          "scopeSelector": {
+            "matchExpressions": [
+              {
+                "operator": "In",
+                "scopeName": "PriorityClass",
+                "values": [
+                  "low"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "apiVersion": "v1",
+        "kind": "ResourceQuota",
+        "metadata": {
+          "name": "object-quota",
+          "namespace": "team-alpha-dev"
+        },
+        "spec": {
+          "hard": {
+            "pods": "50",
+            "persistentvolumeclaims": "10",
+            "replicationcontrollers": "0",
+            "resourcequotas": "1",
+            "services": "20",
+            "services.loadbalancers": "0",
+            "services.nodeports": "0"
+          }
+        }
+      }
+    ],
+    "spec": {
+      "podSelector": {
+        "matchLabels": {
+          "tenant": "tenant-a"
+        }
+      },
+      "ingress": [
+        {
+          "from": [
+            {
+              "namespaceSelector": {
+                "matchLabels": {
+                  "tenant": "tenant-a"
+                }
+              }
+            }
+          ],
+          "ports": [
+            {
+              "port": 80
+            }
+          ]
+        }
+      ]
+    }
+  }

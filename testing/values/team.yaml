@@ -1,0 +1,15 @@
+teamname: team-alpha
+namespace: team-alpha-dev
+groupid: 7345435-345345-45-99999999
+labels:
+  company: mycompany
+  tenant: tenant-a
+  application: app
+resourcequota:
+  pods: "50"
+  persistentvolumeclaims: "10"
+  replicationcontrollers: "0"
+  resourcequotas: "1"
+  services: "20"
+  servicesloadbalancers: "0"
+  servicesnodeports: "0"

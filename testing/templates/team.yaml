@@ -1,0 +1,152 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{.namespace}}
+  labels:
+    company: {{.labels.company}}
+    tenant: {{.labels.tenant}}
+    application: {{.labels.application}}
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: ns-owner-binding
+  namespace: {{.namespace}}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+- kind: Group
+  namespace: {{.namespace}}
+  name: '{{.groupid}}'
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: pods-high
+    namespace: {{.namespace}}
+  spec:
+    hard:
+      cpu: "10"
+      memory: 200Gi
+      pods: "10"
+    scopeSelector:
+      matchExpressions:
+      - operator : In
+        scopeName: PriorityClass
+        values: ["high"]
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: pods-medium
+    namespace: {{.namespace}}
+  spec:
+    hard:
+      cpu: "5"
+      memory: 20Gi
+      pods: "10"
+    scopeSelector:
+      matchExpressions:
+      - operator : In
+        scopeName: PriorityClass
+        values: ["medium"]
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: pods-low
+    namespace: {{.namespace}}
+  spec:
+    hard:
+      cpu: "1"
+      memory: 10Gi
+      pods: "10"
+    scopeSelector:
+      matchExpressions:
+      - operator : In
+        scopeName: PriorityClass
+        values: ["low"]
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: object-quota
+    namespace: {{.namespace}}
+  spec:
+    hard:
+      pods: {{.resourcequota.pods}}
+      persistentvolumeclaims: {{.resourcequota.persistentvolumeclaims}}
+      replicationcontrollers: {{.resourcequota.replicationcontrollers}}
+      resourcequotas: {{.resourcequota.resourcequotas}}
+      services: {{.resourcequota.services}}
+      services.loadbalancers: {{.resourcequota.servicesloadbalancers}}
+      services.nodeports: {{.resourcequota.servicesnodeports}}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress
+  namespace: {{.namespace}}
+spec:
+  podSelector: {}
+  ingress:
+  - {}
+  policyTypes:
+  - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-egress
+  namespace: {{.namespace}}
+spec:
+  podSelector: {}
+  egress:
+  - {}
+  policyTypes:
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: namespace-isolation
+  namespace: {{.namespace}}
+spec:
+  podSelector:
+    matchLabels: 
+      tenant: {{.labels.tenant}}
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          tenant: {{.labels.tenant}}
+    ports:
+    - port: 80
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: psp-restricted
+  namespace: {{.namespace}}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: psp-restricted-binding
+  namespace: {{.namespace}}
+roleRef:
+  kind: ClusterRole
+  name: psp-restricted
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: system:serviceaccounts
+- kind: Group
+  apiGroup: rbac.authorization.k8s.io
+  name: system:authenticated
+- kind: ServiceAccount
+  name: psp-restricted
+  namespace: {{.namespace}}
