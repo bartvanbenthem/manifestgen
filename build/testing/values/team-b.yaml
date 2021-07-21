@@ -1,0 +1,15 @@
+teamname: team-beta
+namespace: team-beta-dev
+groupid: 888888888-99999-5555-0000
+labels:
+  company: mycompany-b
+  tenant: tenant-b
+  application: app
+resourcequota:
+  pods: "43"
+  persistentvolumeclaims: "11"
+  replicationcontrollers: "0"
+  resourcequotas: "4"
+  services: "10"
+  servicesloadbalancers: "1"
+  servicesnodeports: "0"
