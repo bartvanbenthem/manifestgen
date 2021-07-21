@@ -1,5 +1,8 @@
-go build .
+GOOS=windows GOARCH=amd64 go build .
+GOOS=linux GOARCH=amd64 go build .
+
 mv manifestgen build/
+mv manifestgen.exe build/
 
 team="team-a"
 ./build/manifestgen --value="build/testing/values/$team.yaml" --template="build/testing/templates/team.yaml" --output="build/testing/output/$team.yaml" --filetype="yaml"
