@@ -13,97 +13,94 @@ import (
 type ManifestGenClient struct {
 }
 
-type Generator interface {
-	GenerateManifest(pathValuesFile, pathTemplateFile, pathOutputFile string)
-}
-
 func (c *ManifestGenClient) ConvertJSON2Yaml(pathJSONFile string) {
 }
 
 func (c *ManifestGenClient) ConvertYaml2JSON(pathYamlFile string) {
 }
 
-func (c *ManifestGenClient) GenerateJSONManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) {
-	// open the values yaml file
-	jsonFile, err := os.Open(pathValuesFile)
-	if err != nil {
-		log.Printf("Error: %v\n", err)
-	}
-	defer jsonFile.Close()
-
-	// read the values file and create a byte slice output
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		log.Printf("Error: %v\n", err)
-	}
-	// create a map to store the unmarshalled byte slice
-	var values map[string]interface{}
-
-	// unmarshal byte slice into the values map
-	err = json.Unmarshal(byteValue, &values)
-	if err != nil {
-		log.Printf("Error: %v\n", err)
-	}
-
-	tpl, err := template.ParseFiles(pathTemplateFile)
-	if err != nil {
-		log.Printf("Error: %v\n", err)
-	}
-
-	genFile, err := os.Create(pathOutputFile)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer genFile.Close()
-
-	// Execute template var injection and write to file
-	err = tpl.Execute(genFile, values)
-	if err != nil {
-		log.Printf("Error: %v\n", err)
-	}
+type Generator interface {
+	GenerateManifest(pathValuesFile, pathTemplateFile, pathOutputFile string)
 }
 
-// Function to generate the configurable manifest from the values and template files
-// pathValuesFile wants a string containing path to the values yaml file
-// pathTemplateFile wants a string containing path to the template yaml file
-// pathOutputFolder wants a string containing path to the output folder
+// Function to generate manifest from the values and template files
+// pathValuesFile wants a string containing path and file name to the values yaml file
+// pathTemplateFile wants a string containing path and file name to the template yaml file
+// pathOutputFile wants a string containing path and file name to the yaml output file
 func (c *ManifestGenClient) GenerateYamlManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) {
-	// open the values yaml file
+	// open the yaml file
 	yamlFile, err := os.Open(pathValuesFile)
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 	}
 	defer yamlFile.Close()
-
-	// read the values file and create a byte slice output
+	// read the file and create a byte slice output
 	byteValue, err := ioutil.ReadAll(yamlFile)
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 	}
 	// create a map to store the unmarshalled byte slice
 	var values map[string]interface{}
-
 	// unmarshal byte slice into the values map
 	err = yaml.Unmarshal(byteValue, &values)
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 	}
-
+	//
 	tpl, err := template.ParseFiles(pathTemplateFile)
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 	}
-
+	//
 	genFile, err := os.Create(pathOutputFile)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	defer genFile.Close()
-
-	// Execute template var injection and write to file
+	// Execute template var injection and write to output file
 	err = tpl.Execute(genFile, values)
 	if err != nil {
 		log.Printf("Error: %v\n", err)
 	}
+}
 
+// Function to generate manifest from the values and template files
+// pathValuesFile wants a string containing path and file name to the values json file
+// pathTemplateFile wants a string containing path and file name to the template json file
+// pathOutputFile wants a string containing path and file name to the json output file
+func (c *ManifestGenClient) GenerateJSONManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) {
+	// open the json file
+	jsonFile, err := os.Open(pathValuesFile)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	}
+	defer jsonFile.Close()
+	// read the file and create a byte slice output
+	byteValue, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	}
+	// create a map to store the unmarshalled byte slice
+	var values map[string]interface{}
+	// unmarshal byte slice into the values map
+	err = json.Unmarshal(byteValue, &values)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	}
+	//
+	tpl, err := template.ParseFiles(pathTemplateFile)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	}
+	//
+	genFile, err := os.Create(pathOutputFile)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer genFile.Close()
+	// Execute template var injection and write to output file
+	err = tpl.Execute(genFile, values)
+	if err != nil {
+		log.Printf("Error: %v\n", err)
+	}
 }
