@@ -19,5 +19,5 @@ team="team-b"
 * Windows PS
 ```powershell
 $team="team-a"
-./build/manifestgen.exe --value="build/testing/values/$team.yaml" --template="build/testing/templates/team.yaml" --output="build/testing/output/$team.yaml" --filetype="yaml"
+.\build\manifestgen.exe --value="build\testing\values\$team.yaml" --template="build\testing\templates\team.yaml" --output="build\testing\output\$team.yaml" --filetype="yaml"
 ```
