@@ -13,12 +13,6 @@ import (
 type ManifestGenClient struct {
 }
 
-func (c *ManifestGenClient) ConvertJSON2Yaml(pathJSONFile string) {
-}
-
-func (c *ManifestGenClient) ConvertYaml2JSON(pathYamlFile string) {
-}
-
 type Generator interface {
 	GenerateManifest(pathValuesFile, pathTemplateFile, pathOutputFile string)
 }
