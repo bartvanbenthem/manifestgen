@@ -1,5 +1,5 @@
-GOOS=windows GOARCH=amd64 go build .
-GOOS=linux GOARCH=amd64 go build .
+GOOS=windows GOARCH=amd64 go build cmd/manifestgen.go
+GOOS=linux GOARCH=amd64 go build cmd/manifestgen.go
 
 mv manifestgen build/
 mv manifestgen.exe build/
