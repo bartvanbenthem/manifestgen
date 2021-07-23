@@ -20,13 +20,13 @@ func main() {
 
 	// check if file-type is yaml or json and run corresponding function
 	if string(*filetype) == string("yaml") {
-		var a app.ManifestGenClient
+		var a app.GeneratorClient
 		err := a.GenerateYamlManifest(string(*value), string(*template), string(*output))
 		if err != nil {
 			log.Println(err)
 		}
 	} else {
-		var a app.ManifestGenClient
+		var a app.GeneratorClient
 		err := a.GenerateJSONManifest(string(*value), string(*template), string(*output))
 		if err != nil {
 			log.Println(err)

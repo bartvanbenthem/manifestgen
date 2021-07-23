@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type ManifestGenClient struct {
+type GeneratorClient struct {
 }
 
 type Generator interface {
@@ -21,7 +21,7 @@ type Generator interface {
 // pathValuesFile wants a string containing path and file name to the values yaml file
 // pathTemplateFile wants a string containing path and file name to the template yaml file
 // pathOutputFile wants a string containing path and file name to the yaml output file
-func (c *ManifestGenClient) GenerateYamlManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) error {
+func (c *GeneratorClient) GenerateYamlManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) error {
 	// open the yaml file
 	yamlFile, err := os.Open(pathValuesFile)
 	if err != nil {
@@ -63,7 +63,7 @@ func (c *ManifestGenClient) GenerateYamlManifest(pathValuesFile, pathTemplateFil
 // pathValuesFile wants a string containing path and file name to the values json file
 // pathTemplateFile wants a string containing path and file name to the template json file
 // pathOutputFile wants a string containing path and file name to the json output file
-func (c *ManifestGenClient) GenerateJSONManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) error {
+func (c *GeneratorClient) GenerateJSONManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) error {
 	// open the json file
 	jsonFile, err := os.Open(pathValuesFile)
 	if err != nil {
