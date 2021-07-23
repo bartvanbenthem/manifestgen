@@ -4,8 +4,20 @@
 * Variable json and yaml input to default templated output
 * Convert quickly between yaml and json file types
 
-#### Examples 
+#### Usage
+```bash
+Usage of manifestgen:
+  -filetype string
+        yaml / json (default "yaml")
+  -output string
+        path/file to output file (default "./output.yaml")
+  -template string
+        path/file to template file (default "./template.yaml")
+  -value string
+        path/file to values file (default "./value.yaml")
+```
 
+#### Examples 
 * Linux bash
 ```bash
 team="team-a"
