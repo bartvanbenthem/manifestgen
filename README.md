@@ -15,7 +15,6 @@ Usage of manifestgen:
 ```
 
 #### Install and run (Linux)
-* Bash
 ```bash
 git clone https://github.com/bartvanbenthem/manifestgen.git
 cd manifestgen
@@ -29,7 +28,6 @@ manifestgen --value="build/testing/values/$team.json" --template="build/testing/
 ```
 
 #### Install and run (Windows)
-* Windows PowerShell
 ```powershell
 $team="team-a"
 .\build\manifestgen.exe --value="build\testing\values\$team.yaml" --template="build\testing\templates\team.yaml" --output="build\testing\output\$team.yaml" --filetype="yaml"
