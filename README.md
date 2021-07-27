@@ -29,6 +29,10 @@ manifestgen --value="build/testing/values/$team.json" --template="build/testing/
 
 #### Install and run (Windows)
 ```powershell
+git clone https://github.com/bartvanbenthem/manifestgen.git
+cd manifestgen
+
+# Example
 $team="team-a"
 .\build\manifestgen.exe --value="build\testing\values\$team.yaml" --template="build\testing\templates\team.yaml" --output="build\testing\output\$team.yaml" --filetype="yaml"
 .\build\manifestgen.exe --value="build\testing\values\$team.json" --template="build\testing\templates\team.json" --output="build\testing\output\$team.json" --filetype="json"
