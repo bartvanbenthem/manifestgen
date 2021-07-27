@@ -10,37 +10,41 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type GeneratorClient struct {
+type Generator interface {
+	Parser(pathValuesFile string) (map[string]interface{}, error)
+	Writer(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error
 }
 
-type Generator interface {
-	GenerateManifest(pathValuesFile, pathTemplateFile, pathOutputFile string)
+type YAMLClient struct {
 }
 
 // Function to generate manifest from the values and template files
 // pathValuesFile wants a string containing path and file name to the values yaml file
 // pathTemplateFile wants a string containing path and file name to the template yaml file
 // pathOutputFile wants a string containing path and file name to the yaml output file
-func (c *GeneratorClient) GenerateYamlManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) error {
-	// open the yaml file
+func (c YAMLClient) Parser(pathValuesFile string) (map[string]interface{}, error) {
+	// create a map to store the unmarshalled byte slice
+	var values map[string]interface{}
+	// open the json file
 	yamlFile, err := os.Open(pathValuesFile)
 	if err != nil {
-		return err
+		return values, err
 	}
 	defer yamlFile.Close()
 	// read the file and create a byte slice output
 	byteValue, err := ioutil.ReadAll(yamlFile)
 	if err != nil {
-		return err
+		return values, err
 	}
-	// create a map to store the unmarshalled byte slice
-	var values map[string]interface{}
 	// unmarshal byte slice into the values map
 	err = yaml.Unmarshal(byteValue, &values)
 	if err != nil {
-		return err
+		return values, err
 	}
-	//
+	return values, err
+}
+
+func (c YAMLClient) Writer(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
 	tpl, err := template.ParseFiles(pathTemplateFile)
 	if err != nil {
 		return err
@@ -59,30 +63,36 @@ func (c *GeneratorClient) GenerateYamlManifest(pathValuesFile, pathTemplateFile,
 	return err
 }
 
+type JSONClient struct {
+}
+
 // Function to generate manifest from the values and template files
 // pathValuesFile wants a string containing path and file name to the values json file
 // pathTemplateFile wants a string containing path and file name to the template json file
 // pathOutputFile wants a string containing path and file name to the json output file
-func (c *GeneratorClient) GenerateJSONManifest(pathValuesFile, pathTemplateFile, pathOutputFile string) error {
+func (c JSONClient) Parser(pathValuesFile string) (map[string]interface{}, error) {
+	// create a map to store the unmarshalled byte slice
+	var values map[string]interface{}
 	// open the json file
 	jsonFile, err := os.Open(pathValuesFile)
 	if err != nil {
-		return err
+		return values, err
 	}
 	defer jsonFile.Close()
 	// read the file and create a byte slice output
 	byteValue, err := ioutil.ReadAll(jsonFile)
 	if err != nil {
-		return err
+		return values, err
 	}
-	// create a map to store the unmarshalled byte slice
-	var values map[string]interface{}
 	// unmarshal byte slice into the values map
 	err = json.Unmarshal(byteValue, &values)
 	if err != nil {
-		return err
+		return values, err
 	}
-	//
+	return values, err
+}
+
+func (c JSONClient) Writer(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
 	tpl, err := template.ParseFiles(pathTemplateFile)
 	if err != nil {
 		return err
