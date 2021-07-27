@@ -1,7 +1,6 @@
 # Manifestgen
 
-* Generate yaml and json manifests trough Go templating 
-* Variable json and yaml input to default templated output
+* Generate yaml and json manifests trough Go templating, variable json and yaml input results in default templated output
 * Convert quickly between yaml and json file types
 
 #### Usage
