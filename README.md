@@ -1,5 +1,5 @@
 # Manifestgen
-Generate yaml and json manifests trough Go templating, variable json and yaml input results in default templated output.
+CLI tool for generating yaml and json manifests trough Go templating, variable input values result in default templated output.
 
 #### Usage
 ```bash
