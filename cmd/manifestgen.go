@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/bartvanbenthem/manifestgen/app"
+	"github.com/bartvanbenthem/manifestgen/core"
 )
 
 // init generator interface
-var generator app.Generator
+var generator core.Generator
 
 // init argument variables
 var valuepath, template, output, filetype *string
@@ -24,7 +24,7 @@ func main() {
 
 	// check if file-type is yaml or json and run corresponding function
 	if string(*filetype) == string("yaml") {
-		generator = app.YAMLClient{}
+		generator = core.YAMLClient{}
 		values, err := generator.Parser(string(*valuepath))
 		if err != nil {
 			log.Println(err)
@@ -34,7 +34,7 @@ func main() {
 			log.Println(err)
 		}
 	} else {
-		generator = app.JSONClient{}
+		generator = core.JSONClient{}
 		values, err := generator.Parser(string(*valuepath))
 		if err != nil {
 			log.Println(err)

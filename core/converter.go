@@ -1,4 +1,4 @@
-package app
+package core
 
 type Converter interface {
 	Convert(pathInputFile, pathOutputFile string)
