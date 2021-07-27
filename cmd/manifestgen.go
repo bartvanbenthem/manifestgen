@@ -14,6 +14,19 @@ var generator core.Generator
 // init argument variables
 var valuepath, template, output, filetype *string
 
+// generate manifest function, takes an Generator interface as input
+// argument variables are used to read, parse and write manifests
+func generateManifest(g core.Generator) {
+	values, err := g.Parser(string(*valuepath))
+	if err != nil {
+		log.Println(err)
+	}
+	err = g.Writer(values, string(*template), string(*output))
+	if err != nil {
+		log.Println(err)
+	}
+}
+
 func main() {
 	// set and parse flags
 	valuepath = flag.String("value", "./value.yaml", "path/file to values file")
@@ -21,28 +34,13 @@ func main() {
 	output = flag.String("output", "./output.yaml", "path/file to output file")
 	filetype = flag.String("filetype", "yaml", "yaml / json")
 	flag.Parse()
-
 	// check if file-type is yaml or json and run corresponding function
 	if string(*filetype) == string("yaml") {
 		generator = core.YAMLClient{}
-		values, err := generator.Parser(string(*valuepath))
-		if err != nil {
-			log.Println(err)
-		}
-		err = generator.Writer(values, string(*template), string(*output))
-		if err != nil {
-			log.Println(err)
-		}
-	} else {
+		generateManifest(generator)
+	} else if string(*filetype) == string("json") {
 		generator = core.JSONClient{}
-		values, err := generator.Parser(string(*valuepath))
-		if err != nil {
-			log.Println(err)
-		}
-		err = generator.Writer(values, string(*template), string(*output))
-		if err != nil {
-			log.Println(err)
-		}
+		generateManifest(generator)
 	}
 	// response
 	fmt.Printf("%v manifest is generated\n", *output)
