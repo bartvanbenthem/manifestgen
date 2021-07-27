@@ -11,8 +11,8 @@ import (
 )
 
 type Generator interface {
-	Parser(pathValuesFile string) (map[string]interface{}, error)
-	Writer(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error
+	Parse(pathValuesFile string) (map[string]interface{}, error)
+	Write(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error
 }
 
 type YAMLClient struct {
@@ -22,7 +22,7 @@ type YAMLClient struct {
 // pathValuesFile wants a string containing path and file name to the values yaml file
 // pathTemplateFile wants a string containing path and file name to the template yaml file
 // pathOutputFile wants a string containing path and file name to the yaml output file
-func (c YAMLClient) Parser(pathValuesFile string) (map[string]interface{}, error) {
+func (c YAMLClient) Parse(pathValuesFile string) (map[string]interface{}, error) {
 	// create a map to store the unmarshalled byte slice
 	var values map[string]interface{}
 	// open the json file
@@ -44,7 +44,7 @@ func (c YAMLClient) Parser(pathValuesFile string) (map[string]interface{}, error
 	return values, err
 }
 
-func (c YAMLClient) Writer(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
+func (c YAMLClient) Write(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
 	tpl, err := template.ParseFiles(pathTemplateFile)
 	if err != nil {
 		return err
@@ -70,7 +70,7 @@ type JSONClient struct {
 // pathValuesFile wants a string containing path and file name to the values json file
 // pathTemplateFile wants a string containing path and file name to the template json file
 // pathOutputFile wants a string containing path and file name to the json output file
-func (c JSONClient) Parser(pathValuesFile string) (map[string]interface{}, error) {
+func (c JSONClient) Parse(pathValuesFile string) (map[string]interface{}, error) {
 	// create a map to store the unmarshalled byte slice
 	var values map[string]interface{}
 	// open the json file
@@ -92,7 +92,7 @@ func (c JSONClient) Parser(pathValuesFile string) (map[string]interface{}, error
 	return values, err
 }
 
-func (c JSONClient) Writer(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
+func (c JSONClient) Write(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
 	tpl, err := template.ParseFiles(pathTemplateFile)
 	if err != nil {
 		return err

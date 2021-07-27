@@ -1,24 +1,24 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: team-beta-dev
+  name: team-beta-test
   labels:
     company: mycompany-b
     tenant: tenant-b
-    application: app
+    application: app-b
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
   name: ns-owner-binding
-  namespace: team-beta-dev
+  namespace: team-beta-test
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: admin
 subjects:
 - kind: Group
-  namespace: team-beta-dev
+  namespace: team-beta-test
   name: '888888888-99999-5555-0000'
 ---
 apiVersion: v1
@@ -28,7 +28,7 @@ items:
   kind: ResourceQuota
   metadata:
     name: pods-high
-    namespace: team-beta-dev
+    namespace: team-beta-test
   spec:
     hard:
       cpu: "10"
@@ -43,7 +43,7 @@ items:
   kind: ResourceQuota
   metadata:
     name: pods-medium
-    namespace: team-beta-dev
+    namespace: team-beta-test
   spec:
     hard:
       cpu: "5"
@@ -58,7 +58,7 @@ items:
   kind: ResourceQuota
   metadata:
     name: pods-low
-    namespace: team-beta-dev
+    namespace: team-beta-test
   spec:
     hard:
       cpu: "1"
@@ -73,7 +73,7 @@ items:
   kind: ResourceQuota
   metadata:
     name: object-quota
-    namespace: team-beta-dev
+    namespace: team-beta-test
   spec:
     hard:
       pods: 43
@@ -88,7 +88,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-all-ingress
-  namespace: team-beta-dev
+  namespace: team-beta-test
 spec:
   podSelector: {}
   ingress:
@@ -100,7 +100,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-all-egress
-  namespace: team-beta-dev
+  namespace: team-beta-test
 spec:
   podSelector: {}
   egress:
@@ -112,7 +112,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: namespace-isolation
-  namespace: team-beta-dev
+  namespace: team-beta-test
 spec:
   podSelector:
     matchLabels: 
@@ -129,13 +129,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: psp-restricted
-  namespace: team-beta-dev
+  namespace: team-beta-test
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: psp-restricted-binding
-  namespace: team-beta-dev
+  namespace: team-beta-test
 roleRef:
   kind: ClusterRole
   name: psp-restricted
@@ -149,4 +149,4 @@ subjects:
   name: system:authenticated
 - kind: ServiceAccount
   name: psp-restricted
-  namespace: team-beta-dev
+  namespace: team-beta-test

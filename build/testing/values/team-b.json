@@ -1,0 +1,19 @@
+{
+    "teamname": "team-beta",
+    "namespace": "team-beta-test",
+    "groupid": "444-657567-546546546-999",
+    "labels": {
+      "company": "mycompany-b",
+      "tenant": "tenant-b",
+      "application": "app-b"
+    },
+    "resourcequota": {
+      "pods": "0",
+      "persistentvolumeclaims": "0",
+      "replicationcontrollers": "0",
+      "resourcequotas": "0",
+      "services": "0",
+      "servicesloadbalancers": "0",
+      "servicesnodeports": "0"
+    }
+  }

@@ -109,13 +109,13 @@
           },
           "spec": {
              "hard": {
-                "pods": 50,
-                "persistentvolumeclaims": 10,
-                "replicationcontrollers": 0,
-                "resourcequotas": 1,
-                "services": 20,
-                "services.loadbalancers": 0,
-                "services.nodeports": 0
+                "pods": "{{.resourcequota.pods}}",
+                "persistentvolumeclaims": "{{.resourcequota.persistentvolumeclaims}}",
+                "replicationcontrollers": "{{.resourcequota.replicationcontrollers}}",
+                "resourcequotas": "{{.resourcequota.resourcequotas}}",
+                "services": "{{.resourcequota.services}}",
+                "services.loadbalancers": "{{.resourcequota.servicesloadbalancers}}",
+                "services.nodeports":"{{.resourcequota.servicesnodeports}}"
              }
           }
        }

@@ -109,13 +109,13 @@
           },
           "spec": {
              "hard": {
-                "pods": 50,
-                "persistentvolumeclaims": 10,
-                "replicationcontrollers": 0,
-                "resourcequotas": 1,
-                "services": 20,
-                "services.loadbalancers": 0,
-                "services.nodeports": 0
+                "pods": "50",
+                "persistentvolumeclaims": "10",
+                "replicationcontrollers": "0",
+                "resourcequotas": "1",
+                "services": "20",
+                "services.loadbalancers": "0",
+                "services.nodeports":"0"
              }
           }
        }

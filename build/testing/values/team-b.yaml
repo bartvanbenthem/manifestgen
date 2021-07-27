@@ -1,10 +1,10 @@
 teamname: team-beta
-namespace: team-beta-dev
+namespace: team-beta-test
 groupid: 888888888-99999-5555-0000
 labels:
   company: mycompany-b
   tenant: tenant-b
-  application: app
+  application: app-b
 resourcequota:
   pods: "43"
   persistentvolumeclaims: "11"
