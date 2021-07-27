@@ -8,11 +8,13 @@ import (
 	"github.com/bartvanbenthem/manifestgen/app"
 )
 
+// init generator interface
 var generator app.Generator
 
+// init argument variables
+var valuepath, template, output, filetype *string
+
 func main() {
-	// init argument variables
-	var valuepath, template, output, filetype *string
 	// set and parse flags
 	valuepath = flag.String("value", "./value.yaml", "path/file to values file")
 	template = flag.String("template", "./template.yaml", "path/file to template file")
