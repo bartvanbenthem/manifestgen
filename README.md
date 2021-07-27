@@ -1,5 +1,4 @@
 # Manifestgen
-
 Generate yaml and json manifests trough Go templating, variable json and yaml input results in default templated output.
 
 #### Usage
@@ -15,14 +14,21 @@ Usage of manifestgen:
         path/file to values file (default "./value.yaml")
 ```
 
-#### Examples 
-* Linux bash
+#### Install and run (Linux)
+* Bash
 ```bash
+git clone https://github.com/bartvanbenthem/manifestgen.git
+cd manifestgen
+sudo cp build/manifestgen /usr/bin
+manifestgen --help
+
+# Example
 team="team-a"
-./build/manifestgen --value="build/testing/values/$team.yaml" --template="build/testing/templates/team.yaml" --output="build/testing/output/$team.yaml" --filetype="yaml"
-./build/manifestgen --value="build/testing/values/$team.json" --template="build/testing/templates/team.json" --output="build/testing/output/$team.json" --filetype="json"
+manifestgen --value="build/testing/values/$team.yaml" --template="build/testing/templates/team.yaml" --output="build/testing/output/$team.yaml" --filetype="yaml"
+manifestgen --value="build/testing/values/$team.json" --template="build/testing/templates/team.json" --output="build/testing/output/$team.json" --filetype="json"
 ```
 
+#### Install and run (Windows)
 * Windows PowerShell
 ```powershell
 $team="team-a"
