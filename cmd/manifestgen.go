@@ -8,10 +8,7 @@ import (
 	"github.com/bartvanbenthem/manifestgen/core"
 )
 
-// init generator interface
-var generator core.Generator
-
-// init argument variables
+// init argument variables for manifestgen
 var valuepath, template, output, filetype *string
 
 // generate manifest function, takes an Generator interface as input
@@ -36,11 +33,9 @@ func main() {
 	flag.Parse()
 	// check if file-type is yaml or json and run corresponding function
 	if string(*filetype) == string("yaml") {
-		generator = core.YAMLClient{}
-		generateManifest(generator)
+		generateManifest(&core.YAMLClient{})
 	} else if string(*filetype) == string("json") {
-		generator = core.JSONClient{}
-		generateManifest(generator)
+		generateManifest(&core.JSONClient{})
 	}
 	// response
 	fmt.Printf("%v manifest is generated\n", *output)
