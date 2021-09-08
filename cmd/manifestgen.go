@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 
 	"github.com/bartvanbenthem/manifestgen/pkg"
 )
@@ -41,8 +41,8 @@ func main() {
 	}
 	// response
 	if err != nil {
-		fmt.Printf("Error during %v manifest generation: %s\n", *output, err)
+		log.Printf("Error during %v manifest generation: %s\n", *output, err)
 	} else {
-		fmt.Printf("%v manifest is generated\n", *output)
+		log.Printf("%v manifest is generated\n", *output)
 	}
 }
