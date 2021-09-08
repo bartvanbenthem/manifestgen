@@ -4,7 +4,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/bartvanbenthem/manifestgen/pkg"
+	"github.com/bartvanbenthem/manifestgen/pkg/client"
 )
 
 // init argument variables for manifestgen
@@ -12,7 +12,7 @@ var valuepath, template, output, filetype *string
 
 // generate manifest function, takes an Generator interface as input
 // argument variables are used to read, parse and write manifests
-func generateManifest(g pkg.Generator) error {
+func generateManifest(g client.Generator) error {
 	values, err := g.Parse(string(*valuepath))
 	if err != nil {
 		return err
@@ -35,9 +35,9 @@ func main() {
 
 	// check if file-type is yaml or json and run corresponding function
 	if string(*filetype) == string("yaml") {
-		err = generateManifest(&pkg.YAMLClient{})
+		err = generateManifest(&client.YAML{})
 	} else if string(*filetype) == string("json") {
-		err = generateManifest(&pkg.JSONClient{})
+		err = generateManifest(&client.JSON{})
 	}
 	// response
 	if err != nil {
