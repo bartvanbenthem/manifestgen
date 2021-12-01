@@ -1,4 +1,4 @@
-package client
+package manifest
 
 import (
 	"encoding/json"
@@ -10,13 +10,12 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type Generator interface {
+type Builder interface {
 	Parse(pathValuesFile string) (map[string]interface{}, error)
 	Write(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error
 }
 
-type YAML struct {
-}
+type YAML struct{}
 
 // Function to generate manifest from the values and template files
 // pathValuesFile wants a string containing path and file name to the values yaml file
@@ -46,8 +45,7 @@ func (c *YAML) Write(values map[string]interface{}, pathTemplateFile, pathOutput
 	return err
 }
 
-type JSON struct {
-}
+type JSON struct{}
 
 // Function to generate manifest from the values and template files
 // pathValuesFile wants a string containing path and file name to the values json file
