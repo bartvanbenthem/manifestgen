@@ -1,5 +1,5 @@
 # Manifestgen
-Go Module with token package for generating yaml and json manifests trough Go templating.
+Go Module with package for generating yaml and json manifests trough Go templating.
 
 #### Usage
 ```bash
