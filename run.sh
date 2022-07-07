@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # build manifestgen binaries
-GOOS=windows GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
+GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/string-to-json
 
 # team-a example
 team="team-a"
