@@ -1,0 +1,43 @@
+//Kubernetes provider authentication
+
+k8s_token = secret
+
+//Variables for rancher module
+
+project_name = "test-project"
+
+cluster_id = "c-vbjxj"
+
+project_psp_id = "default-eng"
+
+namespace_name = "test"
+
+namespace_description = "test namespace"
+
+ns_resource_quota = {
+
+      limits_cpu = "8000m"
+
+      limits_memory = "4Gi"
+
+      requests_storage = "10Gi"
+
+}
+
+ns_resource_limits = {
+
+      limits_cpu = "1000m"
+
+      limits_memory = "2Gi"
+
+      requests_cpu = "500m"
+
+      requests_memory = "256Mi"
+
+}
+
+customer_admin_rolebinding_name = "test-admin-rb"
+
+admin_role_template_id = "rt-gdb5x"
+
+customer_admin_ad_group = "my-ad-groupname"

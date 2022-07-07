@@ -1,0 +1,7 @@
+{
+    "project_name": "test-project",
+    "namespace_name": "test",
+    "namespace_description": "test namespace",
+    "customer_admin_rolebinding_name": "test-admin-rb",
+    "customer_admin_ad_group": "my-ad-groupname"
+}
