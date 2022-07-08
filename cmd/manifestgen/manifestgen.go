@@ -27,10 +27,10 @@ func generateManifest(g manifest.Builder) error {
 func main() {
 	var err error
 	// set and parse flags
-	valuepath = flag.String("value", "./value.yaml", "path/file to values file")
-	template = flag.String("template", "./template.yaml", "path/file to template file")
-	output = flag.String("output", "./output.yaml", "path/file to output file")
 	filetype = flag.String("filetype", "json", "choose input type json / yaml")
+	valuepath = flag.String("value", "", "path/file to values file")
+	template = flag.String("template", "", "path/file to template file")
+	output = flag.String("output", "./output.json", "path/file for writing output")
 	flag.Parse()
 
 	// check if file-type is yaml or json and run corresponding function

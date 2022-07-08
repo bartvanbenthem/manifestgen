@@ -5,13 +5,13 @@ Go module with package for generating yaml and json manifests trough Go templati
 ```bash
 Usage of manifestgen:
   -filetype string
-        yaml / json (default "yaml")
+        json / yaml (default "json")
   -output string
-        path/file to output file (default "./output.yaml")
+        path/file to output file (default "./output.json")
   -template string
-        path/file to template file (default "./template.yaml")
+        path/file to template file (default "")
   -value string
-        path/file to values file (default "./value.yaml")
+        path/file to values file (default "")
 ```
 
 #### Install and run (Linux)
