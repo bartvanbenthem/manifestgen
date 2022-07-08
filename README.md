@@ -38,11 +38,9 @@ team="team-b"
 # terraform variable file example
 ./build/bin/manifestgen --value="build/testing/values/tf_variables.json" --template="build/testing/templates/test.tfvars.template" --output="build/testing/output/test.tfvars"
 
-printf "\n"
 # test json-to-string
 ./build/bin/json-to-string --escape="true" --jsonfile="./build/testing/values/tf_variables.json"
 
-printf "\n"
 # test string-to-json
 ./build/bin/string-to-json --string="{\"project_name\":\"dss-test\",\"namespace_name\":\"dss-test\",\"namespace_description\":\"dss-test\"}"
 ```
