@@ -16,7 +16,7 @@ Usage of manifestgen:
 
 #### Usage Serializer
 ```bash
-Usage of ./build/bin/serializer:
+Usage of serializer:
   -escape string
         add \ as escape char (default "false")
   -json string
