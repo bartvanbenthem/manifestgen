@@ -19,18 +19,13 @@ func StringPointerToBool(s *string) bool {
 	return bool(i)
 }
 
-func jsonToString(file string, escape bool) (string, error) {
+func jsonToString(file []byte, escape bool) (string, error) {
 	var output []byte
 	var err error
 
-	content, err := ioutil.ReadFile(file)
-	if err != nil {
-		return string(output), err
-	}
-
 	//fmt.Println(string(content))
 	var data map[string]any
-	err = json.Unmarshal(content, &data)
+	err = json.Unmarshal(file, &data)
 	if err != nil {
 		return string(output), err
 	}
@@ -70,6 +65,7 @@ func stringToJSON(jsonstr string) (string, error) {
 func main() {
 	jstr := flag.String("string", "", "give json string to marshall into json object")
 	file := flag.String("jsonfile", "", "path/file to json file")
+	stdinjson := flag.String("json", "", "stdin json input")
 	escape := flag.String("escape", "false", "add \\ as escape char")
 	srlz := flag.String("serialization", "serialize", "serialize / deserialize")
 	flag.Parse()
@@ -91,11 +87,28 @@ func main() {
 
 	// de-serialize | json-to-string
 	if string(*srlz) == "deserialize" {
-		output, err := jsonToString(*file, StringPointerToBool(escape))
-		if err != nil {
-			log.Printf("Error de-serializing: %s", err)
+		var err error
+		var content []byte
+
+		if len(string(*file)) != 0 {
+			content, err = ioutil.ReadFile(*file)
+			if err != nil {
+				log.Printf("Error reading file: %s", err)
+			}
+			output, err := jsonToString(content, StringPointerToBool(escape))
+			if err != nil {
+				log.Printf("Error de-serializing: %s", err)
+			}
+			fmt.Printf("%s\n", output)
 		}
 
-		fmt.Printf("%s\n", output)
+		if len(string(*stdinjson)) != 0 {
+			output, err := jsonToString([]byte(*stdinjson), StringPointerToBool(escape))
+			if err != nil {
+				log.Printf("Error de-serializing: %s", err)
+			}
+			fmt.Printf("%s\n", output)
+		}
+
 	}
 }

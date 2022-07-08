@@ -20,10 +20,21 @@ team="team-b"
 
 printf "\n"
 # serialization | serialize | string-to-json
-GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
-./build/bin/serializer --serialization='serialize' --string="{\"project_name\":\"dss-test\",\"namespace_name\":\"dss-test\",\"namespace_description\":\"dss-test\"}" | jq .
+./build/bin/serializer \
+    --serialization='serialize' \
+    --string="{\"project_name\":\"dss-test\",\"namespace_name\":\"dss-test\",\"namespace_description\":\"dss-test\"}" | jq .
 
 printf "\n"
-# serialization | de-serialize | json-to-string
-GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
-./build/bin/serializer --serialization='deserialize' --escape='true' --jsonfile='./build/testing/values/tf_variables.json'
+# serialization | de-serialize | json-to-string | from json file input
+./build/bin/serializer \
+    --serialization='deserialize' \
+    --escape='true' \
+    --jsonfile='./build/testing/values/tf_variables.json'
+
+printf "\n"
+# serialization | de-serialize | json-to-string | from stdin no escape characters
+STDINJSON=$(cat ./build/testing/values/tf_variables.json | jq .)
+./build/bin/serializer \
+    --serialization='deserialize' \
+    --escape='false' \
+    --json="$STDINJSON"
