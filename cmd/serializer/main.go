@@ -74,19 +74,19 @@ func main() {
 		log.Fatal("Give correct serialization input")
 	}
 
-	// serialize | string-to-json
-	if string(*srlz) == "serialize" {
+	// deserialize | string-to-json
+	if string(*srlz) == "deserialize" {
 		output, err := stringToJSON(*jstr)
 		if err != nil {
-			log.Printf("Error serializing: %s", err)
+			log.Printf("Error de-serializing: %s", err)
 		}
 
 		fmt.Printf("%s\n", output)
 
 	}
 
-	// de-serialize | json-to-string
-	if string(*srlz) == "deserialize" {
+	// serialize | json-to-string
+	if string(*srlz) == "serialize" {
 		var err error
 		var content []byte
 
@@ -97,7 +97,7 @@ func main() {
 			}
 			output, err := jsonToString(content, StringPointerToBool(escape))
 			if err != nil {
-				log.Printf("Error de-serializing: %s", err)
+				log.Printf("Error serializing: %s", err)
 			}
 			fmt.Printf("%s\n", output)
 		}
@@ -105,7 +105,7 @@ func main() {
 		if len(string(*stdinjson)) != 0 {
 			output, err := jsonToString([]byte(*stdinjson), StringPointerToBool(escape))
 			if err != nil {
-				log.Printf("Error de-serializing: %s", err)
+				log.Printf("Error serializing: %s", err)
 			}
 			fmt.Printf("%s\n", output)
 		}
