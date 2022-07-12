@@ -73,23 +73,23 @@ team="team-b"
 
 
 printf "\n"
-# serialization | serialize | string-to-json
+# serialization | deserialize | string-to-json
 ./build/bin/serializer \
-    --serialization='serialize' \
+    --serialization='deserialize' \
     --string="{\"project_name\":\"dss-test\",\"namespace_name\":\"dss-test\",\"namespace_description\":\"dss-test\"}" | jq .
 
 printf "\n"
-# serialization | de-serialize | json-to-string | from json file input
+# serialization | serialize | json-to-string | from json file input
 ./build/bin/serializer \
-    --serialization='deserialize' \
+    --serialization='serialize' \
     --escape='true' \
     --jsonfile='./build/testing/values/tf_variables.json'
 
 printf "\n"
-# serialization | de-serialize | json-to-string | from stdin no escape characters
-STDINJSON=$(cat ./build/testing/values/tf_variables.json | jq .)
+# serialization | serialize | json-to-string | from stdin no escape characters
+STDINJSON=$(cat ./build/testing/values/tf_variables.json)
 ./build/bin/serializer \
-    --serialization='deserialize' \
-    --escape='false' \
+    --serialization='serialize' \
+    --escape='true' \
     --json="$STDINJSON"
 ```

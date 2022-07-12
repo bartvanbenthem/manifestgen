@@ -52,7 +52,7 @@ printf "\n"
 
 printf "\n"
 # serialization | serialize | json-to-string | from stdin no escape characters
-STDINJSON=$(cat ./build/testing/values/tf_variables.json | jq .)
+STDINJSON=$(cat ./build/testing/values/tf_variables.json)
 ./build/bin/serializer \
     --serialization='serialize' \
     --escape='true' \
