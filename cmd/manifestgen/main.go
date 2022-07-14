@@ -12,7 +12,7 @@ import (
 var ft, tmpl, rff, wtf *string
 
 func ManifestPrinter(input []byte, template string, c template.Builder) {
-	err := c.TemplateParser(input, template)
+	err := c.ParseTemplate(input, template)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
 	}

@@ -61,11 +61,12 @@ STDINJSON=$(cat ./build/testing/values/tf_variables.json)
 
 
 printf "\n"
-# testing manifest-printer JSON
+# testing manifest-printer JSON w/ pipe input
 cat build/testing/values/team-a.json | ./build/bin/manifestgen \
       --type='json' --template='build/testing/templates/team.json'
 
 printf "\n"
+# testing manifest-printer Yaml w/ pipe input
 cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
       --type='yaml' --template='build/testing/templates/team.yaml'
 
