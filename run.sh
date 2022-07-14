@@ -71,7 +71,13 @@ cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
       --type='yaml' --template='build/testing/templates/team.yaml'
 
 
+# testing manifest-writer JSON w/ pipe input
 printf "\n"
-#cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
-#      --type='json' --template='build/testing/templates/team.yaml' --read-from-file='./myfile'
+cat build/testing/values/team-a.json | ./build/bin/manifestgen \
+      --type='json' --template='build/testing/templates/team.json' \
+      --write-to-file='build/testing/output/writer.json'
 
+printf "\n"
+cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
+      --type='yaml' --template='build/testing/templates/team.yaml' \
+      --write-to-file='build/testing/output/writer.yaml'
