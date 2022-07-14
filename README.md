@@ -43,71 +43,81 @@ GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
 ### manifestgen Examples
 
 ```bash
-# 01 #################################
-# testing manifest-printer JSON w/ pipe input
+# 01  ##########################################################
+# testing manifest-printer JSON w/ pipe input | write to Stdout
 cat build/testing/values/team-a.json | ./build/bin/manifestgen \
-      --type='json' --template='build/testing/templates/team.json'
+      --type='json' \
+      --template='build/testing/templates/team.json'
 
-# 02 #################################
-# testing manifest-printer Yaml w/ pipe input
+# 02  ##########################################################
+# testing manifest-printer Yaml w/ pipe input  | write to Stdout
 cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
-      --type='yaml' --template='build/testing/templates/team.yaml'
+      --type='yaml' \
+      --template='build/testing/templates/team.yaml'
 
-# 03 #################################
-# testing manifest-writer JSON w/ pipe input
+# 03  ##########################################################
+# testing manifest-writer JSON w/ pipe input | write to File
 cat build/testing/values/team-b.json | ./build/bin/manifestgen \
-      --type='json' --template='build/testing/templates/team.json' \
+      --type='json' \
+      --template='build/testing/templates/team.json' \
       --write-to-file='build/testing/output/team-b.json'
 
-# 04 #################################
-# testing manifest-writer YAML w/ pipe input
+# 04 ##########################################################
+# testing manifest-writer YAML w/ pipe input | write to File
 cat build/testing/values/team-b.yaml | ./build/bin/manifestgen \
-      --type='yaml' --template='build/testing/templates/team.yaml' \
+      --type='yaml' \
+      --template='build/testing/templates/team.yaml' \
       --write-to-file='build/testing/output/team-b.yaml'
 
-# 05 #################################
-# testing manifest-writer JSON w/ file reader input
+# 05  ##########################################################
+# testing manifest-writer JSON w/ file reader input | write to Stdout
 ./build/bin/manifestgen \
-      --type='json' --template='build/testing/templates/team.json' \
+      --type='json' \
+      --template='build/testing/templates/team.json' \
       --read-from-file='./build/testing/values/team-a.json'
 
-# 06 #################################
-# testing manifest-printer JSON w/ file reader input
+# 06  ##########################################################
+# testing manifest-printer JSON w/ file reader input | write to Stdout
 ./build/bin/manifestgen \
-      --type='json' --template='build/testing/templates/team.json' \
+      --type='json' \
+      --template='build/testing/templates/team.json' \
       --read-from-file='./build/testing/values/team-a.json'
 
-# 07 #################################
-# testing manifest-printer YAML w/ file reader input
+# 07  ##########################################################
+# testing manifest-printer YAML w/ file reader input | write to Stdout
 ./build/bin/manifestgen \
-      --type='yaml' --template='build/testing/templates/team.yaml' \
+      --type='yaml' \
+      --template='build/testing/templates/team.yaml' \
       --read-from-file='./build/testing/values/team-a.yaml'
 
-# 08 #################################
-# testing manifest-writer JSON w/  pipe input
+# 08  ##########################################################
+# testing manifest-writer JSON w/  pipe input | write to File
 cat build/testing/values/team-a.json  | ./build/bin/manifestgen \
       --type='json'  \
       --template='build/testing/templates/team.json' \
       --write-to-file='build/testing/output/team-a.json'
 
-# 09 #################################
-# testing manifest-writer YAML w/ file reader input
+# 09  ##########################################################
+# testing manifest-writer YAML w/ file reader input | write to File
 ./build/bin/manifestgen \
-      --type='yaml' --template='build/testing/templates/team.yaml' \
+      --type='yaml' \
+      --template='build/testing/templates/team.yaml' \
       --read-from-file='./build/testing/values/team-a.yaml' \
       --write-to-file='build/testing/output/team-a.yaml'
 
-# 10 #################################
-# testing manifest-writer YAML w/ file reader input
+# 10  ##########################################################
+# testing manifest-writer YAML w/ file reader input | write to File
 ./build/bin/manifestgen \
-      --type='yaml' --template='build/testing/templates/team.yaml' \
+      --type='yaml' \
+      --template='build/testing/templates/team.yaml' \
       --read-from-file='./build/testing/values/team-a.yaml' \
       --write-to-file='build/testing/output/reader-to-writer.yaml'
 
-# 11 #################################
-# terraform variable file example
+# 11  ##########################################################
+# terraform variable file example | write to File
 cat 'build/testing/values/tf_variables.json' | ./build/bin/manifestgen \
-      --type='json' --template='build/testing/templates/test.tfvars.template' \
+      --type='json' \
+      --template='build/testing/templates/test.tfvars.template' \
       --write-to-file='build/testing/output/test.tfvars'
 ```
 ### serialization Examples
