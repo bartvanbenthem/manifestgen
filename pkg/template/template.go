@@ -110,7 +110,7 @@ func (r *YAML) ParseToFile(data []byte, templatePath, file string) error {
 	}
 
 	tpl, err := template.ParseFiles(templatePath)
-	if err != nil {printf "\n"
+	if err != nil {
 		return err
 	}
 
