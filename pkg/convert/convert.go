@@ -65,12 +65,12 @@ func JsonToString(file []byte, escape bool) (string, error) {
 	}
 }
 
-func JsonToYaml(serialized string) ([]byte, error) {
+func JsonToYaml(serialized []byte) ([]byte, error) {
 	var output []byte
 	var err error
 	var body map[string]interface{}
 
-	err = json.Unmarshal([]byte(*&serialized), &body)
+	err = json.Unmarshal(serialized, &body)
 	if err != nil {
 		return output, err
 	}

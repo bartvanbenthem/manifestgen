@@ -36,37 +36,38 @@ git clone https://github.com/bartvanbenthem/manifestgen.git
 cd manifestgen
 
 # build manifestgen and serializer binaries
-GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
+GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifest-writer
+GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifest-printer
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
 
 # team-a kubernetes manifest example
 team="team-a"
-./build/bin/manifestgen \
+./build/bin/manifest-writer \
       --filetype="yaml" \
       --value="build/testing/values/$team.yaml" \
       --template="build/testing/templates/team.yaml" \
       --output="build/testing/output/$team.yaml"
 
-./build/bin/manifestgen \
+./build/bin/manifest-writer \
       --value="build/testing/values/$team.json" \
       --template="build/testing/templates/team.json" \
       --output="build/testing/output/$team.json"
 
 # team-b kubernetes manifest example
 team="team-b"
-./build/bin/manifestgen \
+./build/bin/manifest-writer \
       --filetype="yaml" \
       --value="build/testing/values/$team.yaml" \
       --template="build/testing/templates/team.yaml" \
       --output="build/testing/output/$team.yaml"
 
-./build/bin/manifestgen \
+./build/bin/manifest-writer \
       --value="build/testing/values/$team.json" \
       --template="build/testing/templates/team.json" \
       --output="build/testing/output/$team.json"
 
 # terraform variable file example
-./build/bin/manifestgen \
+./build/bin/manifest-writer \
       --value="build/testing/values/tf_variables.json" \
       --template="build/testing/templates/test.tfvars.template" \
       --output="build/testing/output/test.tfvars"
