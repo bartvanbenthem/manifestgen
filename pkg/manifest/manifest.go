@@ -11,8 +11,8 @@ import (
 )
 
 type Builder interface {
-	Parse(pathValuesFile string) (map[string]interface{}, error)
-	Write(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error
+	ParseFromFile(pathValuesFile string) (map[string]interface{}, error)
+	WriteToFile(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error
 }
 
 type YAML struct{}
@@ -21,7 +21,7 @@ type YAML struct{}
 // pathValuesFile wants a string containing path and file name to the values yaml file
 // pathTemplateFile wants a string containing path and file name to the template yaml file
 // pathOutputFile wants a string containing path and file name to the yaml output file
-func (c *YAML) Parse(pathValuesFile string) (map[string]interface{}, error) {
+func (c *YAML) ParseFromFile(pathValuesFile string) (map[string]interface{}, error) {
 	// create a map to store the unmarshalled byte slice
 	var values map[string]interface{}
 	// read the values file and convert it to []byte
@@ -37,7 +37,7 @@ func (c *YAML) Parse(pathValuesFile string) (map[string]interface{}, error) {
 	return values, err
 }
 
-func (c *YAML) Write(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
+func (c *YAML) WriteToFile(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
 	err := write(values, pathTemplateFile, pathOutputFile)
 	if err != nil {
 		return err
@@ -51,7 +51,7 @@ type JSON struct{}
 // pathValuesFile wants a string containing path and file name to the values json file
 // pathTemplateFile wants a string containing path and file name to the template json file
 // pathOutputFile wants a string containing path and file name to the json output file
-func (c *JSON) Parse(pathValuesFile string) (map[string]interface{}, error) {
+func (c *JSON) ParseFromFile(pathValuesFile string) (map[string]interface{}, error) {
 	// create a map to store the unmarshalled byte slice
 	var values map[string]interface{}
 	// read the values file and convert it to []byte
@@ -67,7 +67,7 @@ func (c *JSON) Parse(pathValuesFile string) (map[string]interface{}, error) {
 	return values, err
 }
 
-func (c *JSON) Write(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
+func (c *JSON) WriteToFile(values map[string]interface{}, pathTemplateFile, pathOutputFile string) error {
 	err := write(values, pathTemplateFile, pathOutputFile)
 	if err != nil {
 		return err

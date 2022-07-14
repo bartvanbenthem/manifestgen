@@ -13,11 +13,11 @@ var valuepath, template, output, filetype *string
 // generate manifest function, takes an Generator interface as input
 // argument variables are used to read, parse and write manifests
 func generateManifest(g manifest.Builder) error {
-	values, err := g.Parse(string(*valuepath))
+	values, err := g.ParseFromFile(string(*valuepath))
 	if err != nil {
 		return err
 	}
-	err = g.Write(values, string(*template), string(*output))
+	err = g.WriteToFile(values, string(*template), string(*output))
 	if err != nil {
 		return err
 	}
