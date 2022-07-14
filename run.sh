@@ -5,28 +5,6 @@ GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
 
 printf "\n"
-# serialization | deserialize | string-to-json
-./build/bin/serializer \
-    --serialization='deserialize' \
-    --string="{\"project_name\":\"dss-test\",\"namespace_name\":\"dss-test\",\"namespace_description\":\"dss-test\"}" | jq .
-
-printf "\n"
-# serialization | serialize | json-to-string | from json file input
-./build/bin/serializer \
-    --serialization='serialize' \
-    --escape='true' \
-    --jsonfile='./build/testing/values/tf_variables.json'
-
-printf "\n"
-# serialization | serialize | json-to-string | from stdin no escape characters
-STDINJSON=$(cat ./build/testing/values/tf_variables.json)
-./build/bin/serializer \
-    --serialization='serialize' \
-    --escape='true' \
-    --json="$STDINJSON"
-
-
-printf "\n"
 # 01 #################################
 # testing manifest-printer JSON w/ pipe input
 cat build/testing/values/team-a.json | ./build/bin/manifestgen \
@@ -105,3 +83,27 @@ cat 'build/testing/values/tf_variables.json' | ./build/bin/manifestgen \
       --type='json' --template='build/testing/templates/test.tfvars.template' \
       --write-to-file='build/testing/output/test.tfvars'
 
+
+
+printf "##################################################################\n"
+
+printf "\n"
+# serialization | deserialize | string-to-json
+./build/bin/serializer \
+    --serialization='deserialize' \
+    --string="{\"project_name\":\"dss-test\",\"namespace_name\":\"dss-test\",\"namespace_description\":\"dss-test\"}" | jq .
+
+printf "\n"
+# serialization | serialize | json-to-string | from json file input
+./build/bin/serializer \
+    --serialization='serialize' \
+    --escape='true' \
+    --jsonfile='./build/testing/values/tf_variables.json'
+
+printf "\n"
+# serialization | serialize | json-to-string | from stdin no escape characters
+STDINJSON=$(cat ./build/testing/values/tf_variables.json)
+./build/bin/serializer \
+    --serialization='serialize' \
+    --escape='true' \
+    --json="$STDINJSON"
