@@ -10,7 +10,6 @@ import (
 )
 
 var ft, tmpl, rff, wtf *string
-var t template.Builder
 
 func ManifestPrinter(data []byte, template string, c template.Builder) {
 	err := c.ParseToStdout(data, template)
@@ -22,8 +21,10 @@ func ManifestPrinter(data []byte, template string, c template.Builder) {
 func ManifestWriter(data []byte, template, file string, c template.Builder) {
 	err := c.ParseToFile(data, template, file)
 	if err != nil {
-		fmt.Printf("Error: %s\n", err)
+		log.Printf("Error during %v manifest generation: %s\n", file, err)
 	}
+
+	log.Printf("%v manifest is generated", file)
 }
 
 func main() {
@@ -63,24 +64,36 @@ func main() {
 	}
 
 	//!!!!!!!!!!!!!!! create ReadFromFile function in template pkg
-	// handle readfrom file errors
+	// handle read from file errors
 	if len(*rff) > 0 {
 		if len(*wtf) == 0 {
 			// check if file-type is yaml or json and run corresponding function
 			if string(*ft) == string("yaml") {
-				file, _ := t.ReadFromFile(*ft)
+				file, err := template.ReadFromFile(*rff)
+				if err != nil {
+					log.Fatal(err)
+				}
 				ManifestPrinter(file, *tmpl, &template.YAML{})
 			} else if string(*ft) == string("json") {
-				file, _ := t.ReadFromFile(*ft)
+				file, err := template.ReadFromFile(*rff)
+				if err != nil {
+					log.Fatal(err)
+				}
 				ManifestPrinter(file, *tmpl, &template.JSON{})
 			}
 		} else {
 			// check if file-type is yaml or json and run corresponding function
 			if string(*ft) == string("yaml") {
-				file, _ := t.ReadFromFile(*ft)
+				file, err := template.ReadFromFile(*rff)
+				if err != nil {
+					log.Fatal(err)
+				}
 				ManifestWriter(file, *tmpl, *wtf, &template.YAML{})
 			} else if string(*ft) == string("json") {
-				file, _ := t.ReadFromFile(*ft)
+				file, err := template.ReadFromFile(*rff)
+				if err != nil {
+					log.Fatal(err)
+				}
 				ManifestWriter(file, *tmpl, *wtf, &template.JSON{})
 			}
 		}
