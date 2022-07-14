@@ -12,7 +12,14 @@ import (
 var ft, tmpl, rff, wtf *string
 
 func ManifestPrinter(input []byte, template string, c template.Builder) {
-	err := c.ParseTemplate(input, template)
+	err := c.ParseToStdout(input, template)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err)
+	}
+}
+
+func ManifestWriter(input []byte, template string, c template.Builder) {
+	err := c.WriteToFile(input, template)
 	if err != nil {
 		fmt.Printf("Error: %s\n", err)
 	}
@@ -30,20 +37,33 @@ func main() {
 		log.Fatal("Error: Provide path to template file")
 	}
 
-	if len(*wtf) == 0 && len(*rff) == 0 {
-		s := convert.StdinPipeToByte()
-		if len(s) == 0 {
-			log.Fatal()
-		}
+	if len(*rff) == 0 {
 
-		// check if file-type is yaml or json and run corresponding function
-		if string(*ft) == string("yaml") {
-			ManifestPrinter(s, *tmpl, &template.YAML{})
-		} else if string(*ft) == string("json") {
-			ManifestPrinter(s, *tmpl, &template.JSON{})
+		if len(*wtf) == 0 {
+			s := convert.StdinPipeToByte()
+			if len(s) == 0 {
+				log.Fatal()
+			}
+
+			// check if file-type is yaml or json and run corresponding function
+			if string(*ft) == string("yaml") {
+				ManifestPrinter(s, *tmpl, &template.YAML{})
+			} else if string(*ft) == string("json") {
+				ManifestPrinter(s, *tmpl, &template.JSON{})
+			}
+		} else {
+			s := convert.StdinPipeToByte()
+			if len(s) == 0 {
+				log.Fatal()
+			}
+
+			// check if file-type is yaml or json and run corresponding function
+			if string(*ft) == string("yaml") {
+				ManifestWriter(s, *tmpl, &template.YAML{})
+			} else if string(*ft) == string("json") {
+				ManifestWriter(s, *tmpl, &template.JSON{})
+			}
 		}
-	} else {
-		fmt.Printf("File: %s\n", *wtf)
 	}
 
 }

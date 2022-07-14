@@ -9,14 +9,14 @@ import (
 )
 
 type Builder interface {
-	ParseTemplate(data []byte, templateFile string) error
+	ParseToStdout(data []byte, templateFile string) error
 	ReadFromFile(file string) ([]byte, error)
 	WriteToFile(data []byte, file string) error
 }
 
 type JSON struct{}
 
-func (r *JSON) ParseTemplate(data []byte, templateFile string) error {
+func (r *JSON) ParseToStdout(data []byte, templateFile string) error {
 	// create a map to store the unmarshalled byte slice
 	var values map[string]interface{}
 
@@ -54,7 +54,7 @@ func (r *JSON) WriteToFile(data []byte, file string) error {
 
 type YAML struct{}
 
-func (r *YAML) ParseTemplate(data []byte, templateFile string) error {
+func (r *YAML) ParseToStdout(data []byte, templateFile string) error {
 	// create a map to store the unmarshalled byte slice
 	var values map[string]interface{}
 

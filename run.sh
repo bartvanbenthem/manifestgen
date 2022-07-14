@@ -72,6 +72,6 @@ cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
 
 
 printf "\n"
-cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
-      --type='json' --template='build/testing/templates/team.yaml' --write-to-file='./myfile'
+#cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
+#      --type='json' --template='build/testing/templates/team.yaml' --read-from-file='./myfile'
 
