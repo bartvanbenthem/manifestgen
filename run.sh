@@ -2,7 +2,7 @@
 
 # build manifestgen and serializer binaries
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifest-writer
-GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifest-printer
+GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
 
 # team-a kubernetes manifest example
@@ -61,5 +61,13 @@ STDINJSON=$(cat ./build/testing/values/tf_variables.json)
 
 
 printf "\n"
-# testing manifest-printer
-cat build/testing/values/team-a.yaml | ./build/bin/manifest-printer
+# testing manifest-printer JSON
+cat build/testing/values/team-a.json | ./build/bin/manifestgen \
+      --type='json' --template='build/testing/templates/team.json'
+
+printf "\n"
+cat build/testing/values/team-a.yaml | ./build/bin/manifestgen \
+      --type='yaml' --template='build/testing/templates/team.yaml'
+
+
+printf "\n"
