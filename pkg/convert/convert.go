@@ -5,6 +5,8 @@ import (
 	"log"
 	"strconv"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 func StringToBool(s string) bool {
@@ -25,32 +27,29 @@ func StringToInt32(s string) int32 {
 	return int32(i)
 }
 
-func StringToJSON(jsonstr string) (string, error) {
+func StringToJSON(jsonstr string) ([]byte, error) {
 	var output []byte
 	var err error
 	var body map[string]interface{}
 
 	err = json.Unmarshal([]byte(*&jsonstr), &body)
 	if err != nil {
-		//fmt.Printf("Error Unmarshalling: %s", err)
-		return string(output), err
+		return output, err
 	}
 
 	output, err = json.Marshal(body)
 	if err != nil {
-		//fmt.Printf("Error Marshalling: %s", err)
-		return string(output), err
+		return output, err
 	}
 
-	return string(output), err
+	return output, err
 }
 
 func JsonToString(file []byte, escape bool) (string, error) {
 	var output []byte
 	var err error
-
-	//fmt.Println(string(content))
 	var data map[string]any
+
 	err = json.Unmarshal(file, &data)
 	if err != nil {
 		return string(output), err
@@ -59,11 +58,28 @@ func JsonToString(file []byte, escape bool) (string, error) {
 	output, err = json.Marshal(&data)
 
 	if escape == true {
-		//fmt.Println(strings.Replace(string(output), "\"", "\\\"", -1))
 		return strings.Replace(string(output), "\"", "\\\"", -1), nil
 
 	} else {
-		//fmt.Println(string(output))
 		return string(output), nil
 	}
+}
+
+func JsonToYaml(serialized string) ([]byte, error) {
+	var output []byte
+	var err error
+	var body map[string]interface{}
+
+	err = json.Unmarshal([]byte(*&serialized), &body)
+	if err != nil {
+		return output, err
+	}
+
+	output, err = yaml.Marshal(body)
+	if err != nil {
+		return output, err
+	}
+
+	return output, err
+
 }
