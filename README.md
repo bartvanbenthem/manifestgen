@@ -2,20 +2,20 @@
 Go module with package for generating yaml and json manifests trough Go templating.
 
 #### Usage Manifestgen
-```bash
+```text
 Usage of manifestgen:
-  -filetype string
-        json / yaml (default "json")
-  -output string
-        path/file to output file (default "./output.json")
+  -read-from-file string
+        path/file to variables file
   -template string
-        path/file to template file (default "")
-  -value string
-        path/file to values file (default "")
+        path/file to template file
+  -type string
+        choose input type json / yaml (default "json")
+  -write-to-file string
+        path/file for writing generated file
 ```
 
 #### Usage Serializer
-```bash
+```text
 Usage of serializer:
   -escape string
         add \ as escape char (default "false")

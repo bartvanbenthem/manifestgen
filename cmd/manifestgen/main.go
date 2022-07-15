@@ -30,9 +30,9 @@ func ManifestWriter(data []byte, template, file string, c template.Builder) {
 func main() {
 
 	ft = flag.String("type", "json", "choose input type json / yaml")
-	tmpl = flag.String("template", "", "path/file to specific template")
-	rff = flag.String("read-from-file", "", "path/file to specific template")
-	wtf = flag.String("write-to-file", "", "path/file to specific template")
+	tmpl = flag.String("template", "", "path/file to template file")
+	rff = flag.String("read-from-file", "", "path/file to variables file")
+	wtf = flag.String("write-to-file", "", "path/file for writing generated file")
 	flag.Parse()
 
 	if len(*tmpl) == 0 {
