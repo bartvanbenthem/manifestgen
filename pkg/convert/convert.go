@@ -89,16 +89,19 @@ func JsonToYaml(serialized []byte) ([]byte, error) {
 }
 
 func StdinPipeToByte() []byte {
-	r := bufio.NewReader(os.Stdin)
-	buf := make([]byte, 0, 4*1024)
 	var out []string
+	// create a reader from the standard input.
+	r := bufio.NewReader(os.Stdin)
+	// create a buffer of 4KB.
+	buf := make([]byte, 0, 4*1024)
 
 	for {
+		// read data from the standard input into the buffer.
 		n, err := r.Read(buf[:cap(buf)])
 		buf = buf[:n]
 
 		if n == 0 {
-
+			// check for errors
 			if err == nil {
 				continue
 			}
@@ -110,14 +113,13 @@ func StdinPipeToByte() []byte {
 			log.Fatal(err)
 		}
 
+		// add contents of the buffer to the slice of string.
 		out = append(out, fmt.Sprintf("%s", string(buf)))
-
+		// check for errors
 		if err != nil && err != io.EOF {
 			log.Fatal(err)
 		}
 	}
-
-	js := strings.Join(out, " ")
-
-	return []byte(js)
+	// return []byte by converting []string to a single string
+	return []byte(strings.Join(out, " "))
 }
