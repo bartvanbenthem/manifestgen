@@ -8,9 +8,9 @@ import (
 )
 
 func TestReadFromFile(t *testing.T) {
-	ioutil.WriteFile("../../project/testdata/template",
+	ioutil.WriteFile("../../test/testdata/template",
 		[]byte("{{.test}}"), 0644)
-	v, err := ReadFromFile("../../project/testdata/template")
+	v, err := ReadFromFile("../../test/testdata/template")
 	if err != nil {
 		t.Error("failed ReadFromFile()")
 	}
@@ -29,14 +29,14 @@ func TestParseToStdout(t *testing.T) {
 	// test the functions with a JSON receiver
 	j := JSON{}
 	err := j.ParseToStdout([]byte("{\"test\": \"json\"}"),
-		"../../project/testdata/template")
+		"../../test/testdata/template")
 	if err != nil {
 		t.Error("failed JSON ParseToStdout()")
 	}
 	// test the functions with a YAML receiver
 	y := YAML{}
 	err = y.ParseToStdout([]byte("{test: yaml}"),
-		"../../project/testdata/template")
+		"../../test/testdata/template")
 	if err != nil {
 		t.Error("failed YAML ParseToStdout()")
 	}
@@ -46,16 +46,16 @@ func TestParseToStdout(t *testing.T) {
 func TestParseToFile(t *testing.T) {
 	j := JSON{}
 	err := j.ParseToFile([]byte("{\"test\": \"json\"}"),
-		"../../project/testdata/template",
-		"../../project/testdata/output_test_json")
+		"../../test/testdata/template",
+		"../../test/testdata/output_test_json")
 	if err != nil {
 		t.Error("failed JSON ParseToStdout()")
 	}
 
 	y := YAML{}
 	err = y.ParseToFile([]byte("{test: yaml}"),
-		"../../project/testdata/template",
-		"../../project/testdata/output_test_yaml")
+		"../../test/testdata/template",
+		"../../test/testdata/output_test_yaml")
 	if err != nil {
 		t.Error("failed YAML ParseToStdout()")
 	}

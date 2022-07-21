@@ -36,7 +36,7 @@ git clone https://github.com/bartvanbenthem/manifestgen.git
 cd manifestgen
 
 # test manifestgen module
-go test -v  ./...
+go test -cover  ./...
 
 # build manifestgen and serializer binaries
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
