@@ -61,22 +61,8 @@ func TestParseToFile(t *testing.T) {
 	}
 }
 
-func TestBuilder(t *testing.T) {
-	b := testBuilder{}
-
+func testBuilderInterface(t *testing.T) {
 	func(b Builder) {
-	}(&b)
+	}(&TestBuilder{})
 
-}
-
-// for testing the builder interface
-type testBuilder struct{}
-
-func (r *testBuilder) ParseToStdout([]byte, string) error {
-	var err error
-	return err
-}
-func (r *testBuilder) ParseToFile([]byte, string, string) error {
-	var err error
-	return err
 }

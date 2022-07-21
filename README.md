@@ -29,18 +29,21 @@ Usage of serializer:
         give json string to marshall into json object
 ```
 
-#### Install and run (Linux)
+#### Test & Build (Linux)
 ```bash
 # clone repository
 git clone https://github.com/bartvanbenthem/manifestgen.git
 cd manifestgen
+
+# test manifestgen module
+go test -v  ./...
 
 # build manifestgen and serializer binaries
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
 
 ```
-### manifestgen Examples
+### ManifestGen Examples
 
 ```bash
 # 01  ##########################################################
@@ -120,7 +123,7 @@ cat 'build/testing/values/tf_variables.json' | ./build/bin/manifestgen \
       --template='build/testing/templates/test.tfvars.template' \
       --write-to-file='build/testing/output/test.tfvars'
 ```
-### serialization Examples
+### Serializer Examples
 
 ```bash
 
