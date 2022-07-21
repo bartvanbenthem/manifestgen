@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# test manifestgen module
+go test -v  ./...
+
 # build manifestgen and serializer binaries
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/manifestgen
 GOOS=linux GOARCH=amd64 go build -o build/bin ./cmd/serializer
