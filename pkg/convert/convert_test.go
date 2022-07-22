@@ -9,11 +9,31 @@ import (
 )
 
 func TestStringToBool(t *testing.T) {
-	b := false
-	v := StringToBool("false")
+	// table test struct
+	tests := []struct {
+		name string
+		val  string
+		want bool
+	}{
+		{
+			name: "False",
+			val:  "false",
+			want: false,
+		},
+		{
+			name: "True",
+			val:  "true",
+			want: true,
+		},
+	}
 
-	assert.Equal(t, v, b)
-
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			v := StringToBool(tt.val)
+			// compare the expected and actual values.
+			assert.Equal(t, v, tt.want)
+		})
+	}
 }
 
 func TestStringToInt32(t *testing.T) {
