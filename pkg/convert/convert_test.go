@@ -4,17 +4,15 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+
+	"github.com/bartvanbenthem/manifestgen/internal/assert"
 )
 
 func TestStringToBool(t *testing.T) {
 	b := false
 	v := StringToBool("false")
 
-	if v == b {
-		// do nothing
-	} else {
-		t.Error(fmt.Sprintf("type is not string, but is %T", v))
-	}
+	assert.Equal(t, v, b)
 
 }
 
@@ -22,12 +20,7 @@ func TestStringToInt32(t *testing.T) {
 	b := int32(33)
 	v := StringToInt32("33")
 
-	if v == b {
-		// do nothing
-	} else {
-		t.Error(fmt.Sprintf("type is not int32, but is %T", v))
-	}
-
+	assert.Equal(t, v, b)
 }
 
 func TestStringToJSON(t *testing.T) {
@@ -36,9 +29,7 @@ func TestStringToJSON(t *testing.T) {
 		t.Error("failed StringToJSON()")
 	}
 
-	if reflect.TypeOf(v) == reflect.TypeOf([]byte("test")) {
-		// do nothing
-	} else {
+	if reflect.TypeOf(v) != reflect.TypeOf([]byte("test")) {
 		t.Error(fmt.Sprintf("type is not []byte, but is %T", v))
 	}
 
@@ -50,6 +41,8 @@ func TestJsonToString(t *testing.T) {
 	if err != nil {
 		t.Error("failed JsonToString()")
 	}
+
+	assert.StringContains(t, v, "test")
 
 	if reflect.TypeOf(v) == reflect.TypeOf(string("test")) {
 		// do nothing
