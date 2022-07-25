@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/bartvanbenthem/manifestgen/internal/template"
 	"github.com/bartvanbenthem/manifestgen/pkg/convert"
-	"github.com/bartvanbenthem/manifestgen/pkg/template"
 )
 
 var ft, tmpl, rff, wtf *string

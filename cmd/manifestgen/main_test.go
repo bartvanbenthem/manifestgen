@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/bartvanbenthem/manifestgen/pkg/template"
+	"github.com/bartvanbenthem/manifestgen/internal/template"
 )
 
 func TestManifestPrinter(t *testing.T) {
