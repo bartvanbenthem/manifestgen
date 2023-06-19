@@ -1,2 +1,7 @@
 # manifestgen-rs
-https://github.com/bartvanbenthem/manifestgen-rs.git
+CLI tool for generating configuration manifests. 
+
+## usage
+```bash
+manifestgen -t project/targets.tmpl -o project/config.yaml -v project/example-var.json
+```

@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-policy
+  labels:
+    app: test-policy
+    pool: poc-pool
+spec:
+  egress:
+  - ports:
+    - port: 443
+      protocol: TCP
+    - port: 443
+      protocol: UDP
+    to:
+    - ipBlock:
+        cidr: 10.0.6.11/32
+    - ipBlock:
+        cidr: 10.0.6.12/32
+  podSelector:
+    matchLabels:
+      app: test-policy
+      pool: poc-pool
+  policyTypes:
+  - Ingress
+  - Egress
