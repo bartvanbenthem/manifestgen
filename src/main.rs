@@ -58,6 +58,7 @@ fn main() ->  MyResult<()> {
     Ok(())
 }
 
+// --------------------------------------------------
 fn get_args() -> MyResult<Config> {
     // Define and parse command-line arguments using clap
     let matches = App::new("Template Renderer")
@@ -94,6 +95,7 @@ fn get_args() -> MyResult<Config> {
     })
 }
 
+// --------------------------------------------------
 fn manifest_writer(output: &String, template: &String) -> MyResult<()> {
     if output.is_empty() {
         // Get the stdout handle
@@ -115,6 +117,7 @@ fn manifest_writer(output: &String, template: &String) -> MyResult<()> {
     Ok(())
 }
 
+// --------------------------------------------------
 fn print_current_dir() {
     if let Ok(current_dir) = env::current_dir() {
         println!("Current Directory: {}", current_dir.display());
