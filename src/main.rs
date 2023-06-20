@@ -94,7 +94,7 @@ fn get_args() -> MyResult<Config> {
     })
 }
 
-fn manifest_writer(output: &String, template: &String) -> Result<(), Box<dyn std::error::Error>> {
+fn manifest_writer(output: &String, template: &String) -> MyResult<()> {
     if output.is_empty() {
         // Get the stdout handle
         let stdout = io::stdout();
