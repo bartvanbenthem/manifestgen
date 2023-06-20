@@ -21,7 +21,7 @@ struct Config {
     json_file: String,
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() ->  MyResult<()> {
     // Get command-line arguments
     let config = get_args().unwrap();
     
