@@ -125,3 +125,59 @@ fn print_current_dir() {
         println!("Failed to retrieve the current directory");
     }
 }
+
+
+// --------------------------------------------------
+// UNIT TESTS
+// --------------------------------------------------
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::{self, Write};
+    use std::env;
+    use std::sync::{Mutex, Arc};
+
+    // Custom writer that collects the output into a buffer
+    struct BufferWriter(Arc<Mutex<Vec<u8>>>);
+
+    impl Write for BufferWriter {
+        fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+            self.0.lock().unwrap().write(buf)
+        }
+
+        fn flush(&mut self) -> io::Result<()> {
+            self.0.lock().unwrap().flush()
+        }
+    }
+
+    #[test]
+    fn test_manifest_writer_with_non_empty_output() {
+        // Create a temporary directory
+        let temp_dir = env::temp_dir();
+
+        // Generate a path for the output file within the temporary directory
+        let output_file = temp_dir.join("output.json");
+
+        // Convert the output file path to a string
+        let output = output_file.to_string_lossy().into_owned();
+
+        // Set up test inputs
+        let template = "{\"key\": \"value\"}".to_string();
+
+        // Call the function being tested
+        manifest_writer(&output, &template).unwrap();
+
+        // Read the content of the output file
+        let file_content = fs::read_to_string(output_file).unwrap();
+
+        // Define the expected file content
+        let expected_content = "{\"key\": \"value\"}";
+
+        // Assert that the file content matches the expected content
+        assert_eq!(file_content, expected_content);
+        
+        // Cleanup: Delete the temporary output file
+        fs::remove_file(&output).unwrap();
+    }
+}
