@@ -1,13 +1,13 @@
 use std::collections::BTreeMap;
 use std::fs;
-use serde::{Deserialize, Serialize};
-use serde_json::{Value};
-use serde_yaml;
 use std::env;
 use std::error::Error;
 use std::io::{self, Read, Write};
 use std::process;
 
+use serde::{Deserialize, Serialize};
+use serde_json::{Value};
+use serde_yaml;
 use handlebars::Handlebars;
 use clap::{App, Arg};
 
@@ -20,7 +20,6 @@ struct Config {
     output_file: String,
     variables_file: String,
 }
-
 
 fn main() ->  Result<(), Box<dyn Error>> {
     // Get command-line arguments
