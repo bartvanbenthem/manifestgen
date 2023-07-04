@@ -15,7 +15,7 @@ FLAGS:
 OPTIONS:
     -o, --output <output_file>          Path to the output file
     -t, --template <template_file>      Path to the template file
-    -v, --variables <variables_json>    Path to the JSON file
+    -v, --variables <variables_file>    Path to the JSON file
 
 ```
 

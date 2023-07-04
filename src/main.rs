@@ -16,8 +16,7 @@ struct KeyValuePairs(BTreeMap<String, String>);
 struct Config {
     template_file: String,
     output_file: String,
-    json_file: String,
-    yaml_file: String,
+    variables_file: String,
 }
 
 fn main() ->  Result<(), Box<dyn Error>> {
@@ -27,14 +26,14 @@ fn main() ->  Result<(), Box<dyn Error>> {
     // initialize KeyValuePair type
     let key_value_pairs: KeyValuePairs;
 
-    if config.json_file.is_empty() {
+    if config.variables_file.is_empty() {
         // Process the JSON value trough stdin
         let mut input = String::new();
         io::stdin().read_to_string(&mut input)?;
         key_value_pairs = serde_json::from_str(&input)?;
     } else {
         // Read JSON file
-        let json_content = fs::read_to_string(config.json_file)?;
+        let json_content = fs::read_to_string(config.variables_file)?;
         key_value_pairs = serde_json::from_str(&json_content)?;
     }
  
@@ -78,28 +77,19 @@ fn get_args() -> Result<Config, Box<dyn Error>> {
                 .help("Path to the output file"),
         )
         .arg(
-            Arg::with_name("variables_json")
-                .short("j")
-                .long("variables-json")
+            Arg::with_name("variables_file")
+                .short("v")
+                .long("variables")
                 .required(false)
                 .takes_value(true)
                 .help("Path to the JSON file"),
-        )
-        .arg(
-            Arg::with_name("variables_yaml")
-                .short("y")
-                .long("variables-yaml")
-                .required(false)
-                .takes_value(true)
-                .help("Path to the YAML file"),
         )
         .get_matches();
 
     Ok(Config {
         template_file: matches.value_of("template_file").unwrap().to_string(),
         output_file: matches.value_of("output_file").unwrap_or("").to_string(),
-        json_file: matches.value_of("variables_json").unwrap_or("").to_string(),
-        yaml_file: matches.value_of("variables_yaml").unwrap_or("").to_string(),
+        variables_file: matches.value_of("variables_file").unwrap_or("").to_string(),
     })
 }
 
@@ -124,6 +114,11 @@ fn manifest_writer(output: &String, template: &String) -> Result<(), Box<dyn Err
 
     Ok(())
 }
+
+//fn yaml_to_json(cfg: &Config) -> Result<(), Box<dyn Error>> {
+//
+//    Ok(())
+//}
 
 // --------------------------------------------------
 fn print_current_dir() {
