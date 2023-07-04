@@ -1,4 +1,4 @@
 {
-    "policy_name": "test-policy",
-    "pool_name": "poc-pool"
+    "policy_name": "test-policy-json-input",
+    "pool_name": "poc-pool-json-input"
 }

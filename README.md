@@ -1,5 +1,5 @@
 # manifestgen-rs
-CLI tool for generating configuration manifests. 
+CLI tool for generating configuration manifests. Both JSON and YAML are valid input types that can be converted from template to manifest.
 
 # usage manual
 ```bash
@@ -27,10 +27,16 @@ OPTIONS:
 # read variables from stdin and write manifest to a file
 cat project/example-var.json | ./target/debug/manifestgen -t project/targets.tmpl -o project/config.yaml
 
-# read variables from a file and write manifest to stdout
+# read JSON variables from a file and write manifest to stdout
 ./target/debug/manifestgen -v project/example-var.json -t project/targets.tmpl
 
-# read variables from stdin and write manifest to stdout
+# read YAML variables from a file and write manifest to stdout
+./target/debug/manifestgen -v project/example-var.yaml -t project/targets.tmpl
+
+# read JSON variables from stdin and write manifest to stdout
 cat project/example-var.json | ./target/debug/manifestgen --template project/targets.tmpl
+
+# read YAML variables from stdin and write manifest to stdout
+cat project/example-var.yaml | ./target/debug/manifestgen --template project/targets.tmpl
 
 ```

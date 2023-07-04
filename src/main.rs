@@ -1,10 +1,12 @@
 use std::collections::BTreeMap;
 use std::fs;
 use serde::{Deserialize, Serialize};
-use serde_json;
+use serde_json::{Value};
+use serde_yaml;
 use std::env;
 use std::error::Error;
 use std::io::{self, Read, Write};
+use std::process;
 
 use handlebars::Handlebars;
 use clap::{App, Arg};
@@ -19,33 +21,21 @@ struct Config {
     variables_file: String,
 }
 
+
 fn main() ->  Result<(), Box<dyn Error>> {
     // Get command-line arguments
     let config = get_args().unwrap();
-    
-    // initialize KeyValuePair type
-    let key_value_pairs: KeyValuePairs;
 
-    if config.variables_file.is_empty() {
-        // Process the JSON value trough stdin
-        let mut input = String::new();
-        io::stdin().read_to_string(&mut input)?;
-        key_value_pairs = serde_json::from_str(&input)?;
-    } else {
-        // Read JSON file
-        let json_content = fs::read_to_string(config.variables_file)?;
-        key_value_pairs = serde_json::from_str(&json_content)?;
-    }
- 
-    // Load template file
-    let template_content = fs::read_to_string(config.template_file)?;
+    let input_type_result = parse_input_type(&config);
+    let input_type = match input_type_result {
+        Ok(input_type) => input_type,
+        Err(_) => {
+            eprintln!("No valid JSON or YAML input type, restart the Manifestgen with valid input!");
+            process::exit(1)
+        },
+    };
 
-    // Initialize the templating engine
-    let mut handlebars = Handlebars::new();
-    handlebars.register_template_string("template", &template_content)?;
-
-    // Render the template
-    let rendered_template = handlebars.render("template", &key_value_pairs.0)?;
+    let rendered_template = render_config(&input_type, &config)?;
 
     // write to disk or stdout based on the provided output param
     if let Err(err) = manifest_writer(&config.output_file, &rendered_template) {
@@ -93,6 +83,66 @@ fn get_args() -> Result<Config, Box<dyn Error>> {
     })
 }
 
+fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>> {
+         // initialize KeyValuePair type
+         let key_value_pairs: KeyValuePairs;
+
+         if config.variables_file.is_empty() {
+             // Process the JSON value trough stdin
+             let mut input = String::new();
+             io::stdin().read_to_string(&mut input)?;
+             if is_valid_json(&input) {
+                key_value_pairs = serde_json::from_str(&input)?;
+             } else if is_valid_yaml(&input){
+                key_value_pairs = serde_yaml::from_str(&input)?;
+             } else {
+                panic!("No valid JSON or YAML input type!")
+             }
+         } else {
+             // Read JSON file
+             let var_file = fs::read_to_string(&config.variables_file)?;
+             if is_valid_json(&var_file) {
+                key_value_pairs = serde_json::from_str(&var_file)?;
+             } else if is_valid_yaml(&var_file){
+                key_value_pairs = serde_yaml::from_str(&var_file)?;
+             } else {
+                panic!("No valid JSON or YAML input type!")
+             }
+         }
+
+         Ok(key_value_pairs)
+
+}
+
+fn is_valid_json(input: &str) -> bool {
+    match serde_json::from_str::<Value>(input) {
+        Ok(_) => true,
+        Err(_) => false,
+    }
+}
+
+fn is_valid_yaml(input: &str) -> bool {
+    match serde_yaml::from_str::<Value>(input) {
+        Ok(_) => true,
+        Err(_) => false,
+    }
+}
+
+// --------------------------------------------------
+fn render_config(key_value_pairs: &KeyValuePairs, config: &Config) -> Result<String, Box<dyn Error>> {
+        // Load template file
+        let template_content = fs::read_to_string(&config.template_file)?;
+    
+        // Initialize the templating engine
+        let mut handlebars = Handlebars::new();
+        handlebars.register_template_string("template", &template_content)?;
+    
+        // Render the template
+        let rendered_template = handlebars.render("template", &key_value_pairs.0)?;
+
+        Ok(rendered_template)
+}
+
 // --------------------------------------------------
 fn manifest_writer(output: &String, template: &String) -> Result<(), Box<dyn Error>> {
     if output.is_empty() {
@@ -114,11 +164,6 @@ fn manifest_writer(output: &String, template: &String) -> Result<(), Box<dyn Err
 
     Ok(())
 }
-
-//fn yaml_to_json(cfg: &Config) -> Result<(), Box<dyn Error>> {
-//
-//    Ok(())
-//}
 
 // --------------------------------------------------
 fn print_current_dir() {
