@@ -17,6 +17,7 @@ struct Config {
     template_file: String,
     output_file: String,
     json_file: String,
+    yaml_file: String,
 }
 
 fn main() ->  Result<(), Box<dyn Error>> {
@@ -78,11 +79,19 @@ fn get_args() -> Result<Config, Box<dyn Error>> {
         )
         .arg(
             Arg::with_name("variables_json")
-                .short("v")
-                .long("variables")
+                .short("j")
+                .long("variables-json")
                 .required(false)
                 .takes_value(true)
                 .help("Path to the JSON file"),
+        )
+        .arg(
+            Arg::with_name("variables_yaml")
+                .short("y")
+                .long("variables-yaml")
+                .required(false)
+                .takes_value(true)
+                .help("Path to the YAML file"),
         )
         .get_matches();
 
@@ -90,6 +99,7 @@ fn get_args() -> Result<Config, Box<dyn Error>> {
         template_file: matches.value_of("template_file").unwrap().to_string(),
         output_file: matches.value_of("output_file").unwrap_or("").to_string(),
         json_file: matches.value_of("variables_json").unwrap_or("").to_string(),
+        yaml_file: matches.value_of("variables_yaml").unwrap_or("").to_string(),
     })
 }
 
