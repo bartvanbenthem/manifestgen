@@ -1,4 +1,4 @@
-# manifestgen-rs
+# manifestgen
 CLI tool for generating configuration manifests. Both JSON and YAML are valid input types that can be converted from template to manifest.
 
 # usage manual
