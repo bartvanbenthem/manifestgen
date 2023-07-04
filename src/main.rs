@@ -29,17 +29,24 @@ fn main() ->  Result<(), Box<dyn Error>> {
     let input_type = match input_type_result {
         Ok(input_type) => input_type,
         Err(_) => {
-            eprintln!("No valid JSON or YAML input type, restart the Manifestgen with valid input!");
+            eprintln!("No valid JSON or YAML input is given, restart the Manifestgen with valid input!");
             process::exit(1)
         },
     };
 
-    let rendered_template = render_config(&input_type, &config)?;
+    let rendered_template_result = render_config(&input_type, &config);
+    let rendered_template = match rendered_template_result {
+        Ok(rendered_template) => rendered_template,
+        Err(error) => {
+            eprintln!("Error while rendering {}", error);
+            process::exit(1)
+        },
+    };
 
     // write to disk or stdout based on the provided output param
     if let Err(err) = manifest_writer(&config.output_file, &rendered_template) {
         eprintln!("Error: {}", err);
-        // Handle the error here
+        process::exit(1)
     }
 
     Ok(())
@@ -82,6 +89,7 @@ fn get_args() -> Result<Config, Box<dyn Error>> {
     })
 }
 
+// --------------------------------------------------
 fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>> {
          // initialize KeyValuePair type
          let key_value_pairs: KeyValuePairs;
