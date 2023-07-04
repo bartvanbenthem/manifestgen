@@ -12,8 +12,6 @@ use clap::{App, Arg};
 #[derive(Debug, Deserialize, Serialize)]
 struct KeyValuePairs(BTreeMap<String, String>);
 
-type MyResult<T> = Result<T, Box<dyn Error>>;
-
 #[derive(Debug)]
 struct Config {
     template_file: String,
@@ -21,7 +19,7 @@ struct Config {
     json_file: String,
 }
 
-fn main() ->  MyResult<()> {
+fn main() ->  Result<(), Box<dyn Error>> {
     // Get command-line arguments
     let config = get_args().unwrap();
     
@@ -59,7 +57,7 @@ fn main() ->  MyResult<()> {
 }
 
 // --------------------------------------------------
-fn get_args() -> MyResult<Config> {
+fn get_args() -> Result<Config, Box<dyn Error>> {
     // Define and parse command-line arguments using clap
     let matches = App::new("Template Renderer")
         .arg(
@@ -96,7 +94,7 @@ fn get_args() -> MyResult<Config> {
 }
 
 // --------------------------------------------------
-fn manifest_writer(output: &String, template: &String) -> MyResult<()> {
+fn manifest_writer(output: &String, template: &String) -> Result<(), Box<dyn Error>> {
     if output.is_empty() {
         // Get the stdout handle
         let stdout = io::stdout();
