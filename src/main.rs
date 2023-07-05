@@ -28,8 +28,8 @@ fn main() {
     let input_type_result = parse_input_type(&config);
     let input_type = match input_type_result {
         Ok(input_type) => input_type,
-        Err(error) => {
-            println!("{}", error);
+        Err(err) => {
+            println!("{}", err);
             eprintln!(
                 "No valid JSON or YAML input is given, restart the Manifestgen with valid input!"
             );
@@ -41,15 +41,15 @@ fn main() {
     let rendered_template_result = render_config(&input_type, &config);
     let rendered_template = match rendered_template_result {
         Ok(rendered_template) => rendered_template,
-        Err(error) => {
-            eprintln!("Error while rendering {}", error);
+        Err(err) => {
+            eprintln!("Error while rendering {}", err);
             process::exit(1)
         }
     };
 
     // write to disk or stdout based on the provided output param
-    if let Err(error) = manifest_writer(&config.output_file, &rendered_template) {
-        eprintln!("Error: {}", error);
+    if let Err(err) = manifest_writer(&config.output_file, &rendered_template) {
+        eprintln!("Error: {}", err);
         process::exit(1)
     }
 }
