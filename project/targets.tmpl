@@ -7,11 +7,13 @@ metadata:
     pool: {{pool_name}}
 spec:
   egress:
+  {{#each ports}}
   - ports:
-    - port: 443
+    - port: {{this}}
       protocol: TCP
-    - port: 443
+    - port: {{this}}
       protocol: UDP
+  {{/each}}
     to:
     {{#each targets}}  
     - ipBlock:
