@@ -35,6 +35,7 @@ fn main() ->  Result<(), Box<dyn Error>> {
         },
     };
 
+    // render manifests
     let rendered_template_result = render_config(&input_type, &config);
     let rendered_template = match rendered_template_result {
         Ok(rendered_template) => rendered_template,

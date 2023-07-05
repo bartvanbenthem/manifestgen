@@ -1,2 +1,5 @@
-policy_name: test-policy-yaml-input
-pool_name: poc-pool-yaml-input
+policy_name: test-policy-json-input
+pool_name: poc-pool-json-input
+targets:
+- 10.0.6.11/32
+- 10.0.6.12/32
