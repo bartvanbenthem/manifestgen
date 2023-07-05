@@ -21,7 +21,7 @@ struct Config {
     variables_file: String,
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() {
     // Get command-line arguments
     let config = get_args().unwrap();
 
@@ -48,12 +48,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     };
 
     // write to disk or stdout based on the provided output param
-    if let Err(err) = manifest_writer(&config.output_file, &rendered_template) {
-        eprintln!("Error: {}", err);
+    if let Err(error) = manifest_writer(&config.output_file, &rendered_template) {
+        eprintln!("Error: {}", error);
         process::exit(1)
     }
-
-    Ok(())
 }
 
 // --------------------------------------------------
