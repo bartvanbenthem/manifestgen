@@ -99,7 +99,9 @@ fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>> {
          if config.variables_file.is_empty() {
              // Process the JSON value trough stdin
              let mut input = String::new();
+             
              io::stdin().read_to_string(&mut input)?;
+             
              if is_valid_json(&input) {
                 key_value_pairs = serde_json::from_str(&input)?;
              } else if is_valid_yaml(&input){
@@ -110,6 +112,7 @@ fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>> {
          } else {
              // Read JSON file
              let var_file = fs::read_to_string(&config.variables_file)?;
+             
              if is_valid_json(&var_file) {
                 key_value_pairs = serde_json::from_str(&var_file)?;
              } else if is_valid_yaml(&var_file){
@@ -120,7 +123,6 @@ fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>> {
          }
 
          Ok(key_value_pairs)
-
 }
 
 fn is_valid_json(input: &str) -> bool {
