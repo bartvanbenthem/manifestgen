@@ -1,15 +1,15 @@
 use std::collections::BTreeMap;
-use std::fs;
 use std::env;
 use std::error::Error;
+use std::fs;
 use std::io::{self, Read, Write};
 use std::process;
 
-use serde::{Deserialize, Serialize};
-use serde_json::{Value};
-use serde_yaml;
-use handlebars::Handlebars;
 use clap::{App, Arg};
+use handlebars::Handlebars;
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use serde_yaml;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct KeyValuePairs(BTreeMap<String, Value>);
@@ -21,7 +21,7 @@ struct Config {
     variables_file: String,
 }
 
-fn main() ->  Result<(), Box<dyn Error>> {
+fn main() -> Result<(), Box<dyn Error>> {
     // Get command-line arguments
     let config = get_args().unwrap();
 
@@ -29,10 +29,12 @@ fn main() ->  Result<(), Box<dyn Error>> {
     let input_type = match input_type_result {
         Ok(input_type) => input_type,
         Err(error) => {
-            println!("{}",error);
-            eprintln!("No valid JSON or YAML input is given, restart the Manifestgen with valid input!");
+            println!("{}", error);
+            eprintln!(
+                "No valid JSON or YAML input is given, restart the Manifestgen with valid input!"
+            );
             process::exit(1)
-        },
+        }
     };
 
     // render manifests
@@ -42,7 +44,7 @@ fn main() ->  Result<(), Box<dyn Error>> {
         Err(error) => {
             eprintln!("Error while rendering {}", error);
             process::exit(1)
-        },
+        }
     };
 
     // write to disk or stdout based on the provided output param
@@ -93,36 +95,36 @@ fn get_args() -> Result<Config, Box<dyn Error>> {
 
 // --------------------------------------------------
 fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>> {
-         // initialize KeyValuePair type
-         let key_value_pairs: KeyValuePairs;
+    // initialize KeyValuePair type
+    let key_value_pairs: KeyValuePairs;
 
-         if config.variables_file.is_empty() {
-             // Process the JSON value trough stdin
-             let mut input = String::new();
-             
-             io::stdin().read_to_string(&mut input)?;
-             
-             if is_valid_json(&input) {
-                key_value_pairs = serde_json::from_str(&input)?;
-             } else if is_valid_yaml(&input){
-                key_value_pairs = serde_yaml::from_str(&input)?;
-             } else {
-                panic!("No valid JSON or YAML input type!")
-             }
-         } else {
-             // Read JSON file
-             let var_file = fs::read_to_string(&config.variables_file)?;
-             
-             if is_valid_json(&var_file) {
-                key_value_pairs = serde_json::from_str(&var_file)?;
-             } else if is_valid_yaml(&var_file){
-                key_value_pairs = serde_yaml::from_str(&var_file)?;
-             } else {
-                panic!("No valid JSON or YAML input type!")
-             }
-         }
+    if config.variables_file.is_empty() {
+        // Process the JSON value trough stdin
+        let mut input = String::new();
 
-         Ok(key_value_pairs)
+        io::stdin().read_to_string(&mut input)?;
+
+        if is_valid_json(&input) {
+            key_value_pairs = serde_json::from_str(&input)?;
+        } else if is_valid_yaml(&input) {
+            key_value_pairs = serde_yaml::from_str(&input)?;
+        } else {
+            panic!("No valid JSON or YAML input type!")
+        }
+    } else {
+        // Read JSON file
+        let var_file = fs::read_to_string(&config.variables_file)?;
+
+        if is_valid_json(&var_file) {
+            key_value_pairs = serde_json::from_str(&var_file)?;
+        } else if is_valid_yaml(&var_file) {
+            key_value_pairs = serde_yaml::from_str(&var_file)?;
+        } else {
+            panic!("No valid JSON or YAML input type!")
+        }
+    }
+
+    Ok(key_value_pairs)
 }
 
 fn is_valid_json(input: &str) -> bool {
@@ -140,18 +142,21 @@ fn is_valid_yaml(input: &str) -> bool {
 }
 
 // --------------------------------------------------
-fn render_config(key_value_pairs: &KeyValuePairs, config: &Config) -> Result<String, Box<dyn Error>> {
-        // Load template file
-        let template_content = fs::read_to_string(&config.template_file)?;
-    
-        // Initialize the templating engine
-        let mut handlebars = Handlebars::new();
-        handlebars.register_template_string("template", &template_content)?;
-    
-        // Render the template
-        let rendered_template = handlebars.render("template", &key_value_pairs.0)?;
+fn render_config(
+    key_value_pairs: &KeyValuePairs,
+    config: &Config,
+) -> Result<String, Box<dyn Error>> {
+    // Load template file
+    let template_content = fs::read_to_string(&config.template_file)?;
 
-        Ok(rendered_template)
+    // Initialize the templating engine
+    let mut handlebars = Handlebars::new();
+    handlebars.register_template_string("template", &template_content)?;
+
+    // Render the template
+    let rendered_template = handlebars.render("template", &key_value_pairs.0)?;
+
+    Ok(rendered_template)
 }
 
 // --------------------------------------------------
@@ -171,7 +176,7 @@ fn manifest_writer(output: &String, template: &String) -> Result<(), Box<dyn Err
         // Write the rendered template to the output file
         fs::write(output, template)?;
         println!("Template successfully rendered and written to {}!", output);
-    }    
+    }
 
     Ok(())
 }
@@ -185,7 +190,6 @@ fn print_current_dir() {
     }
 }
 
-
 // --------------------------------------------------
 // UNIT TESTS
 // --------------------------------------------------
@@ -193,9 +197,9 @@ fn print_current_dir() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io::{self, Write};
     use std::env;
-    use std::sync::{Mutex, Arc};
+    use std::io::{self, Write};
+    use std::sync::{Arc, Mutex};
 
     // Custom writer that collects the output into a buffer
     struct BufferWriter(Arc<Mutex<Vec<u8>>>);
@@ -235,7 +239,7 @@ mod tests {
 
         // Assert that the file content matches the expected content
         assert_eq!(file_content, expected_content);
-        
+
         // Cleanup: Delete the temporary output file
         fs::remove_file(&output).unwrap();
     }
