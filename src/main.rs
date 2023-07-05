@@ -12,7 +12,7 @@ use handlebars::Handlebars;
 use clap::{App, Arg};
 
 #[derive(Debug, Deserialize, Serialize)]
-struct KeyValuePairs(BTreeMap<String, String>);
+struct KeyValuePairs(BTreeMap<String, Value>);
 
 #[derive(Debug)]
 struct Config {
@@ -28,7 +28,8 @@ fn main() ->  Result<(), Box<dyn Error>> {
     let input_type_result = parse_input_type(&config);
     let input_type = match input_type_result {
         Ok(input_type) => input_type,
-        Err(_) => {
+        Err(error) => {
+            println!("{}",error);
             eprintln!("No valid JSON or YAML input is given, restart the Manifestgen with valid input!");
             process::exit(1)
         },
