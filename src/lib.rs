@@ -92,14 +92,14 @@ pub fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>
 }
 
 fn is_valid_json(input: &str) -> bool {
-    match serde_json::from_str::<Value>(input) {
+    match serde_json::from_str::<serde_json::Value>(input) {
         Ok(_) => true,
         Err(_) => false,
     }
 }
 
 fn is_valid_yaml(input: &str) -> bool {
-    match serde_yaml::from_str::<Value>(input) {
+    match serde_yaml::from_str::<serde_yaml::Value>(input) {
         Ok(_) => true,
         Err(_) => false,
     }
