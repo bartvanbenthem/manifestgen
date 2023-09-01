@@ -58,40 +58,31 @@ pub fn get_args() -> Result<Config, Box<dyn Error>> {
 }
 
 // --------------------------------------------------
-pub fn parse_input_type<'a, T>(config: &Config) -> Result<KeyValuePairs<T>, Box<dyn Error>>
+pub fn parse_input_type<T>(config: &Config) -> Result<KeyValuePairs<T>, Box<dyn Error>>
 where
     T: for<'de> Deserialize<'de>,
 {
+    let mut input = String::new();
+
     if config.variables_file.is_empty() {
-        // Process the JSON value trough stdin
-        let mut input = String::new();
-
+        // Process the value trough stdin
         io::stdin().read_to_string(&mut input)?;
-
-        if is_valid_json(&input) {
-            let key_value_pairs = serde_json::from_str(&input)?;
-            Ok(key_value_pairs)
-        } else if is_valid_yaml(&input) {
-            let key_value_pairs = serde_yaml::from_str(&input)?;
-            Ok(key_value_pairs)
-        } else {
-            panic!("No valid JSON or YAML input type!")
-        }
     } else {
-        // Read JSON file
+        // Read value from file
         let var_file = fs::read_to_string(&config.variables_file)?;
 
-        if is_valid_json(&var_file) {
-            let key_value_pairs = serde_json::from_str(&var_file)?;
-            Ok(key_value_pairs)
-        } else if is_valid_yaml(&var_file) {
-            let key_value_pairs = serde_yaml::from_str(&var_file)?;
-            Ok(key_value_pairs)
-        } else {
-            panic!("No valid JSON or YAML input type!")
-        }
+        input = var_file;
+    }
+
+    if is_valid_json(&input) {
+        Ok(serde_json::from_str(&input)?)
+    } else if is_valid_yaml(&input) {
+        Ok(serde_yaml::from_str(&input)?)
+    } else {
+        panic!("No valid JSON or YAML input type!")
     }
 }
+
 
 fn is_valid_json(input: &str) -> bool {
     match serde_json::from_str::<serde_json::Value>(input) {

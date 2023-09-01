@@ -1,16 +1,14 @@
 use manifestgen::KeyValuePairs;
 use serde_json::Value;
-use std::error::Error;
 use std::process;
 
 fn main() {
     // Get command-line arguments
     let config = manifestgen::get_args().unwrap();
 
-    let input_type_result: Result<KeyValuePairs<Value>, Box<dyn Error>> =
-        manifestgen::parse_input_type(&config);
+    let input_type_result = manifestgen::parse_input_type(&config);
 
-    let input_type = match input_type_result {
+    let input_type: KeyValuePairs<Value> = match input_type_result {
         Ok(input_type) => input_type,
         Err(err) => {
             println!("{}", err);
