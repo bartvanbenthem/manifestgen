@@ -1,5 +1,5 @@
 # manifestgen
-CLI tool for generating configuration manifests, effective for integration with configuration management pipelines to reduce the ammount of specifications. Both JSON and YAML are valid input types that can be converted from template to manifest.
+CLI tool for generating configuration manifests, effective for integration with configuration management pipelines to reduce the ammount of handwritten specifications. Both JSON and YAML are valid input types that can be converted from template to manifest.
 
 # usage manual
 ```bash
