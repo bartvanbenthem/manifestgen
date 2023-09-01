@@ -7,11 +7,11 @@ use std::io::{self, Read, Write};
 use clap::{App, Arg};
 use handlebars::Handlebars;
 use serde::{Deserialize, Serialize};
-use serde_json::Value;
+use serde_json;
 use serde_yaml;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct KeyValuePairs(BTreeMap<String, Value>);
+pub struct KeyValuePairs<T>(BTreeMap<String, T>);
 
 #[derive(Debug)]
 pub struct Config {
@@ -58,10 +58,10 @@ pub fn get_args() -> Result<Config, Box<dyn Error>> {
 }
 
 // --------------------------------------------------
-pub fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>> {
-    // initialize KeyValuePair type
-    let key_value_pairs: KeyValuePairs;
-
+pub fn parse_input_type<'a, T>(config: &Config) -> Result<KeyValuePairs<T>, Box<dyn Error>>
+where
+    T: for<'de> Deserialize<'de>,
+{
     if config.variables_file.is_empty() {
         // Process the JSON value trough stdin
         let mut input = String::new();
@@ -69,9 +69,11 @@ pub fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>
         io::stdin().read_to_string(&mut input)?;
 
         if is_valid_json(&input) {
-            key_value_pairs = serde_json::from_str(&input)?;
+            let key_value_pairs = serde_json::from_str(&input)?;
+            Ok(key_value_pairs)
         } else if is_valid_yaml(&input) {
-            key_value_pairs = serde_yaml::from_str(&input)?;
+            let key_value_pairs = serde_yaml::from_str(&input)?;
+            Ok(key_value_pairs)
         } else {
             panic!("No valid JSON or YAML input type!")
         }
@@ -80,15 +82,15 @@ pub fn parse_input_type(config: &Config) -> Result<KeyValuePairs, Box<dyn Error>
         let var_file = fs::read_to_string(&config.variables_file)?;
 
         if is_valid_json(&var_file) {
-            key_value_pairs = serde_json::from_str(&var_file)?;
+            let key_value_pairs = serde_json::from_str(&var_file)?;
+            Ok(key_value_pairs)
         } else if is_valid_yaml(&var_file) {
-            key_value_pairs = serde_yaml::from_str(&var_file)?;
+            let key_value_pairs = serde_yaml::from_str(&var_file)?;
+            Ok(key_value_pairs)
         } else {
             panic!("No valid JSON or YAML input type!")
         }
     }
-
-    Ok(key_value_pairs)
 }
 
 fn is_valid_json(input: &str) -> bool {
@@ -106,10 +108,13 @@ fn is_valid_yaml(input: &str) -> bool {
 }
 
 // --------------------------------------------------
-pub fn render_config(
-    key_value_pairs: &KeyValuePairs,
+pub fn render_config<T>(
+    key_value_pairs: &KeyValuePairs<T>,
     config: &Config,
-) -> Result<String, Box<dyn Error>> {
+) -> Result<String, Box<dyn Error>>
+where
+    T: Serialize,
+{
     // Load template file
     let template_content = fs::read_to_string(&config.template_file)?;
 
