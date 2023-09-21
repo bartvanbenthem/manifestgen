@@ -111,7 +111,11 @@ where
 
     // Initialize the templating engine
     let mut handlebars = Handlebars::new();
+
     handlebars.register_template_string("template", &template_content)?;
+
+    // Disable HTML entity escaping
+    handlebars.register_escape_fn(handlebars::no_escape);
 
     // Render the template
     let rendered_template = handlebars.render("template", &key_value_pairs.0)?;
