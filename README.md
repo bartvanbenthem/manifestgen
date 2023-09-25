@@ -3,7 +3,7 @@ CLI tool for generating configuration manifests, effective for integration with 
 
 # usage manual
 ```bash
-Template Renderer 
+Manifestgen 
 
 USAGE:
     manifestgen [FLAGS] [OPTIONS] --template <template_file>
@@ -14,9 +14,9 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -o, --output <output_file>          Path to the output file
+    -o, --output <output_file>          Path for the generated output file
     -t, --template <template_file>      Path to the template file
-    -v, --variables <variables_file>    Path to the JSON file
+    -v, --variables <variables_file>    Path to the variable input file
 
 ```
 
