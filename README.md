@@ -6,9 +6,10 @@ CLI tool for generating configuration manifests, effective for integration with 
 Template Renderer 
 
 USAGE:
-    manifestgen [OPTIONS] --template <template_file>
+    manifestgen [FLAGS] [OPTIONS] --template <template_file>
 
 FLAGS:
+    -e, --encode     Base64 Encoded output
     -h, --help       Prints help information
     -V, --version    Prints version information
 
