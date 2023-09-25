@@ -40,7 +40,7 @@ pub fn get_args() -> Result<Config, Box<dyn Error>> {
                 .long("output")
                 .required(false)
                 .takes_value(true)
-                .help("Path to the output file"),
+                .help("Path for the generated output file"),
         )
         .arg(
             Arg::with_name("variables_file")
@@ -48,7 +48,7 @@ pub fn get_args() -> Result<Config, Box<dyn Error>> {
                 .long("variables")
                 .required(false)
                 .takes_value(true)
-                .help("Path to the JSON file"),
+                .help("Path to the variable input file"),
         )
         .arg(
             Arg::with_name("encode")
