@@ -9,6 +9,7 @@ use handlebars::Handlebars;
 use serde::{Deserialize, Serialize};
 use serde_json;
 use serde_yaml;
+use base64::encode;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct KeyValuePairs<T>(BTreeMap<String, T>);
@@ -18,6 +19,7 @@ pub struct Config {
     pub template_file: String,
     pub output_file: String,
     pub variables_file: String,
+    pub encode: bool,
 }
 
 // --------------------------------------------------
@@ -48,12 +50,21 @@ pub fn get_args() -> Result<Config, Box<dyn Error>> {
                 .takes_value(true)
                 .help("Path to the JSON file"),
         )
+        .arg(
+            Arg::with_name("encode")
+                .short("e")
+                .long("encode")
+                .required(false)
+                .takes_value(false)
+                .help("Base64 Encoded output"),
+        )
         .get_matches();
 
     Ok(Config {
         template_file: matches.value_of("template_file").unwrap().to_string(),
         output_file: matches.value_of("output_file").unwrap_or("").to_string(),
         variables_file: matches.value_of("variables_file").unwrap_or("").to_string(),
+        encode: matches.is_present("encode"),
     })
 }
 
@@ -120,7 +131,12 @@ where
     // Render the template
     let rendered_template = handlebars.render("template", &key_value_pairs.0)?;
 
-    Ok(rendered_template)
+    if config.encode {
+      let encoded = encode(&rendered_template.as_bytes());
+        Ok(encoded)
+    } else {
+        Ok(rendered_template)
+    }
 }
 
 // --------------------------------------------------

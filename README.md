@@ -19,24 +19,42 @@ OPTIONS:
 
 ```
 
+## build
+
+```bash
+rustup target add x86_64-unknown-linux-musl
+
+cargo test
+
+cargo build
+cargo build --target x86_64-unknown-linux-musl --release
+```
+
 ## examples
 ```bash
+manifestgen='./target/x86_64-unknown-linux-musl/release/manifestgen'
+
 # read variables from a file and write manifest to a file
-./target/debug/manifestgen -v project/example-var.json -t project/targets.tmpl -o project/config.yaml
+$manifestgen -v project/example-var.json -t project/targets.tmpl -o project/config.yaml
+
+# read variables from a file and write manifest to an base64 encoded output file
+$manifestgen -v project/example-var.json -t project/targets.tmpl -o project/encoded --encode
+# verify
+cat project/encoded | base64 -d
 
 # read variables from stdin and write manifest to a file
-cat project/example-var.json | ./target/debug/manifestgen -t project/targets.tmpl -o project/config.yaml
+cat project/example-var.json | $manifestgen -t project/targets.tmpl -o project/config.yaml
 
 # read JSON variables from a file and write manifest to stdout
-./target/debug/manifestgen -v project/example-var.json -t project/targets.tmpl
+$manifestgen -v project/example-var.json -t project/targets.tmpl
 
 # read YAML variables from a file and write manifest to stdout
-./target/debug/manifestgen -v project/example-var.yaml -t project/targets.tmpl
+$manifestgen -v project/example-var.yaml -t project/targets.tmpl
 
 # read JSON variables from stdin and write manifest to stdout
-cat project/example-var.json | ./target/debug/manifestgen --template project/targets.tmpl
+cat project/example-var.json | $manifestgen --template project/targets.tmpl
 
 # read YAML variables from stdin and write manifest to stdout
-cat project/example-var.yaml | ./target/debug/manifestgen --template project/targets.tmpl
+cat project/example-var.yaml | $manifestgen --template project/targets.tmpl
 
 ```
