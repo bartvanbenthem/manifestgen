@@ -1,4 +1,7 @@
 # manifestgen
+This project aims to assess Rust's suitability and effectiveness in building command-line interface (CLI) tools.
+
+Project:
 CLI for generating configuration manifests, effective for integration with configuration management pipelines to reduce the ammount of handwritten specifications. Both JSON and YAML are valid input types that can be converted from template to manifest.
 
 # usage manual
