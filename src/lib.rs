@@ -25,7 +25,7 @@ pub struct Config {
 // --------------------------------------------------
 pub fn get_args() -> Result<Config, Box<dyn Error>> {
     // Define and parse command-line arguments using clap
-    let matches = App::new("Manifestgen")
+    let matches = App::new("hbstemplate")
         .arg(
             Arg::with_name("template_file")
                 .short("t")
