@@ -1,12 +1,12 @@
-use manifestgen::KeyValuePairs;
+use hbstemplate::KeyValuePairs;
 use serde_json::Value;
 use std::process;
 
 fn main() {
     // Get command-line arguments
-    let config = manifestgen::get_args().unwrap();
+    let config = hbstemplate::get_args().unwrap();
 
-    let input_type_result = manifestgen::parse_input_type(&config);
+    let input_type_result = hbstemplate::parse_input_type(&config);
 
     let input_type: KeyValuePairs<Value> = match input_type_result {
         Ok(input_type) => input_type,
@@ -20,7 +20,7 @@ fn main() {
     };
 
     // render manifests
-    let rendered_template_result = manifestgen::render_config(&input_type, &config);
+    let rendered_template_result = hbstemplate::render_config(&input_type, &config);
     let rendered_template = match rendered_template_result {
         Ok(rendered_template) => rendered_template,
         Err(err) => {
@@ -30,7 +30,7 @@ fn main() {
     };
 
     // write to disk or stdout based on the provided output param
-    if let Err(err) = manifestgen::manifest_writer(&config.output_file, &rendered_template) {
+    if let Err(err) = hbstemplate::manifest_writer(&config.output_file, &rendered_template) {
         eprintln!("Error: {}", err);
         process::exit(1)
     }
