@@ -1,8 +1,5 @@
-# manifestgen
-This project aims to assess Rust's suitability and effectiveness in building command-line interface (CLI) tools.
-
-Project:
-CLI for generating configuration manifests, effective for integration with configuration management pipelines to reduce the ammount of handwritten specifications. Both JSON and YAML are valid input types that can be converted from template to manifest.
+# hbstemplate - template renderer 
+hbstemplate is a lightweight and fast command-line tool written in Rust that lets you generate output files from templates using the powerful Handlebars templating engine. Whether you're scaffolding config files, boilerplate code, or documentation, hbstemplate makes it easy to automate file generation with structured input data in JSON or YAML format.
 
 # usage manual
 ```bash
