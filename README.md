@@ -3,10 +3,10 @@ hbstemplate is a lightweight and fast command-line tool written in Rust that let
 
 # usage manual
 ```bash
-Manifestgen 
+Hbstemplate 
 
 USAGE:
-    manifestgen [FLAGS] [OPTIONS] --template <template_file>
+    hbstemplate [FLAGS] [OPTIONS] --template <template_file>
 
 FLAGS:
     -e, --encode     Base64 Encoded output
